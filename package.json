@@ -1,0 +1,32 @@
+{
+  "name": "svgsaver",
+  "version": "0.0.0",
+  "description": "download an SVG element with css styles",
+  "main": "index.js",
+  "scripts": {
+    "babel": "babel src/svgsaver.js -m umd -o index.js --no-comments --source-maps",
+    "test": "npm run build && karma start",
+    "build": "npm run babel",
+    "lint": "eslint src/svgsaver.js",
+    "watch": "watch \"npm run babel\" ./src/"
+  },
+  "keywords": [
+    "svg",
+    "FileSaver"
+  ],
+  "author": "J. Harshbarger",
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "eslint": "^1.4.3",
+    "jasmine-core": "^2.3.4",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-firefox-launcher": "^0.1.6",
+    "karma-ie-launcher": "^0.2.0",
+    "karma-jasmine": "^0.3.6",
+    "karma-phantomjs-launcher": "^0.2.1",
+    "phantomjs": "^1.9.18",
+    "watch": "^0.16.0"
+  }
+}
