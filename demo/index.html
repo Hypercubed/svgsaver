@@ -38,9 +38,9 @@
   <script src="//cdn.rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 	<script src="../index.js"></script>
 	<script>
+    var svgsaver = new SvgSaver();
 		document.querySelector('#asSvg').addEventListener('click', function() {
-			var octocat = new svgsaver(document.querySelector('#octocat'));
-			octocat.asSvg();
+			svgsaver.asSvg(document.querySelector('#octocat'));
 		});
 	</script>
 </body>

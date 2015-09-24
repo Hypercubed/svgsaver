@@ -8,7 +8,7 @@
       exports: {}
     };
     factory(mod.exports, mod, global.saveAs);
-    global.svgsaver = mod.exports;
+    global.SvgSaver = mod.exports;
   }
 })(this, function (exports, module, _FileSaver) {
   'use strict';
@@ -143,16 +143,14 @@
   }
 
   var SvgSaver = (function () {
-    function SvgSaver(el) {
+    function SvgSaver(opts) {
       _classCallCheck(this, SvgSaver);
-
-      this.el = el;
     }
 
     _createClass(SvgSaver, [{
       key: 'getHTML',
-      value: function getHTML() {
-        var svg = cloneSvg(this.el);
+      value: function getHTML(el) {
+        var svg = cloneSvg(el);
 
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         svg.setAttribute('version', 1.1);
@@ -161,19 +159,19 @@
       }
     }, {
       key: 'getBlob',
-      value: function getBlob() {
-        var html = this.getHTML();
+      value: function getBlob(el) {
+        var html = this.getHTML(el);
         return new Blob([html], { type: 'text/xml' });
       }
     }, {
       key: 'asSvg',
-      value: function asSvg(filename) {
+      value: function asSvg(el, filename) {
         if (!filename || filename === '') {
-          filename = this.el.getAttribute('title');
+          filename = el.getAttribute('title');
           filename = (filename || 'untitled') + '.svg';
         }
 
-        return (0, _saveAs['default'])(this.getBlob(), filename);
+        return (0, _saveAs['default'])(this.getBlob(el), filename);
       }
     }]);
 

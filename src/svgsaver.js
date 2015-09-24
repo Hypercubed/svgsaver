@@ -143,14 +143,12 @@ function cloneSvg(src) {
 }
 
 class SvgSaver {
-  constructor(el) {
-    // check for Blob and FileSaver
-
-    this.el = el;
+  constructor(opts) {
+    // todo: options
   }
 
-  getHTML() {
-    var svg = cloneSvg(this.el);
+  getHTML(el) {
+    var svg = cloneSvg(el);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
@@ -158,18 +156,18 @@ class SvgSaver {
     return svg.outerHTML || (new window.XMLSerializer()).serializeToString(svg);
   }
 
-  getBlob() {
-    var html = this.getHTML();
+  getBlob(el) {
+    var html = this.getHTML(el);
     return new Blob([html], { type: 'text/xml' });
   }
 
-  asSvg(filename) {
+  asSvg(el, filename) {
     if (!filename || filename === '') {
-      filename = this.el.getAttribute('title');
+      filename = el.getAttribute('title');
       filename = (filename || 'untitled')+'.svg';
     }
 
-    return saveAs(this.getBlob(), filename);
+    return saveAs(this.getBlob(el), filename);
   }
 
 }
