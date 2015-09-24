@@ -1,4 +1,4 @@
-import saveAs from 'FileSaver';
+import saveAs from 'html5-filesaver.js';
 import {svgAttrs, svgStyles} from './collection';
 
 function isUndefined(value) {return typeof value === 'undefined';}

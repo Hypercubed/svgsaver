@@ -7,7 +7,7 @@
     "main": "src/SvgSaver.js"
   },
   "scripts": {
-    "babel": "rollup ./src/index.js -g FileSaver | babel -o index.js -m umd --module-id SvgSaver -f ./src/index.js --no-comments",
+    "babel": "rollup ./src/index.js -e html5-filesaver.js | babel -o index.js -m umd --module-id SvgSaver -f ./src/index.js --no-comments",
     "test": "npm run build && karma start",
     "build": "npm run babel",
     "lint": "eslint src/index.js",
@@ -32,5 +32,8 @@
     "phantomjs": "^1.9.18",
     "rollup": "^0.16.4",
     "watch": "^0.16.0"
+  },
+  "dependencies": {
+    "html5-filesaver.js": "0.0.2"
   }
 }
