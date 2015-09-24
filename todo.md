@@ -3,14 +3,16 @@
 _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 
 - [ ] Rethink exports/API
+- [ ] Include small saveSvg shim?
 - [ ] Better string matching tests
-- [ ] Download multiple svgs
-- [ ] construct using selector?
+- [ ] Download multiple SVGs
+- [ ] pass selector string instead of element?
 - [ ] If element is HTMLElement find first SVG?
 - [ ] Make white lists optional
-- [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000)
+- [ ] Include better whitelists.
+- [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), normalize?
 - [ ] image download (png, etc)
-- [ ] bower.json
-- [ ] publish to bower
-- [ ] publish to npm
-- [ ] Add jspm section to package.json
+- [ ] getUri?
+- [x] bower.json
+- [x] publish to bower
+- [x] publish to npm
