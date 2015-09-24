@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "description": "download an SVG element with css styles",
   "main": "index.js",
+  "jspm": {
+    "main": "src/SvgSaver.js"
+  },
   "scripts": {
-    "babel": "babel src/SvgSaver.js -m umd -o index.js --no-comments --source-maps",
+    "babel": "rollup ./src/index.js -g FileSaver | babel -o index.js -m umd --module-id SvgSaver -f ./src/index.js --no-comments",
     "test": "npm run build && karma start",
     "build": "npm run babel",
-    "lint": "eslint src/SvgSaver.js",
+    "lint": "eslint src/index.js",
     "watch": "watch \"npm run babel\" ./src/"
   },
   "keywords": [
@@ -27,6 +30,7 @@
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.1",
     "phantomjs": "^1.9.18",
+    "rollup": "^0.16.4",
     "watch": "^0.16.0"
   }
 }

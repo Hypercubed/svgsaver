@@ -39,8 +39,9 @@
 	<script src="../index.js"></script>
 	<script>
     var svgsaver = new SvgSaver();
+    var octocat = document.querySelector('#octocat');
 		document.querySelector('#asSvg').addEventListener('click', function() {
-			svgsaver.asSvg(document.querySelector('#octocat'));
+			svgsaver.asSvg(octocat);
 		});
 	</script>
 </body>

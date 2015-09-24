@@ -9,7 +9,15 @@ download an svg element as an SVG file, including CSS defined styles.
 - Copies only SVG relevant and non-default styles.  [See here](http://www.w3.org/TR/SVG/propidx.html).
 
 ## Usage
-Coming soon...
+
+### Example
+
+```
+var SvgSaver = require('svgsaver');                 // if using CommonJS environment
+var svgsaver = new SvgSaver();                      // creates a new instance
+var octocat = document.querySelector('#octocat');   // find the SVG element
+svgsaver.asSvg(octocat);                            // save as SVG
+```
 
 ## Acknowledgments
 Some portions of this directive inspired by code from [raw](https://github.com/densitydesign/raw/blob/master/js/directives.js) and [moagrius/copycss](https://github.com/moagrius/copycss).

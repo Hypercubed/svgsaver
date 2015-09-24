@@ -1,6 +1,6 @@
 (function (global, factory) {
   if (typeof define === 'function' && define.amd) {
-    define(['exports', 'module', 'FileSaver'], factory);
+    define('SvgSaver', ['exports', 'module', 'FileSaver'], factory);
   } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
     factory(exports, module, require('FileSaver'));
   } else {
@@ -20,15 +20,6 @@
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
   var _saveAs = _interopRequireDefault(_FileSaver);
-
-  function isUndefined(value) {
-    return typeof value === 'undefined';
-  }
-  function isDefined(value) {
-    return typeof value !== 'undefined';
-  }
-
-  var forEach = Array.prototype.forEach;
 
   var svgStyles = {
     'alignment-baseline': 'auto',
@@ -96,6 +87,14 @@
   };
 
   var svgAttrs = ['id', 'xml:base', 'xml:lang', 'xml:space', 'height', 'result', 'width', 'x', 'y', 'xlink:href', 'style', 'class', 'd', 'pathLength', 'x', 'y', 'dx', 'dy', 'glyphRef', 'format', 'x1', 'y1', 'x2', 'y2', 'rotate', 'textLength', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'width', 'height', 'refX', 'refY', 'orient', 'markerUnits', 'markerWidth', 'markerHeight', 'maskUnits', 'transform', 'viewBox', 'version', 'preserveAspectRatio', 'xmlns', 'points', 'offset'];
+
+  function isUndefined(value) {
+    return typeof value === 'undefined';
+  }
+  function isDefined(value) {
+    return typeof value !== 'undefined';
+  }
+  var forEach = Array.prototype.forEach;
 
   function getStyles(node, name) {
     var val;
@@ -180,5 +179,3 @@
 
   module.exports = SvgSaver;
 });
-
-//# sourceMappingURL=index.js.map
