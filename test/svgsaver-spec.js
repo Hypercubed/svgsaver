@@ -55,3 +55,22 @@ describe('svgsaver#getBlob', function() {
   });
 
 });
+
+describe('svgsaver#getUri', function() {
+
+  var svgSaver = new SvgSaver();
+
+  if (typeof window.Blob !== 'function') {
+    window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+  }
+
+  document.body.innerHTML += '<style>rect { fill: #0000ff; }</style>';
+  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="stroke:#ff0000;"/></svg>';
+
+  it('should convert SVG element', function() {
+    var e = document.querySelector('#svg-0');
+    var uri = svgSaver.getUri(e);
+    expect(uri).toContain('data:image/svg+xml;base64');
+  });
+
+});

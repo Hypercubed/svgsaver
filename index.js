@@ -1,25 +1,21 @@
 (function (global, factory) {
   if (typeof define === 'function' && define.amd) {
-    define('SvgSaver', ['exports', 'module', 'html5-filesaver.js'], factory);
+    define('SvgSaver', ['exports', 'module'], factory);
   } else if (typeof exports !== 'undefined' && typeof module !== 'undefined') {
-    factory(exports, module, require('html5-filesaver.js'));
+    factory(exports, module);
   } else {
     var mod = {
       exports: {}
     };
-    factory(mod.exports, mod, global.saveAs);
+    factory(mod.exports, mod);
     global.SvgSaver = mod.exports;
   }
-})(this, function (exports, module, _html5FilesaverJs) {
+})(this, function (exports, module) {
   'use strict';
 
   var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-  var _saveAs = _interopRequireDefault(_html5FilesaverJs);
 
   var svgStyles = {
     'alignment-baseline': 'auto',
@@ -96,6 +92,8 @@
   }
   var forEach = Array.prototype.forEach;
 
+  var DownloadAttributeSupport = ('download' in document.createElement('a'));
+
   function getStyles(node, name) {
     var val;
 
@@ -141,6 +139,17 @@
     return clonedSvg;
   }
 
+  function saveUri(url, name) {
+    if (DownloadAttributeSupport) {
+      var dl = document.createElement('a');
+      dl.setAttribute('href', url);
+      dl.setAttribute('download', name);
+      dl.click();
+    } else {
+      window.open(url, '_blank', '');
+    }
+  }
+
   var SvgSaver = (function () {
     function SvgSaver(opts) {
       _classCallCheck(this, SvgSaver);
@@ -153,6 +162,8 @@
 
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         svg.setAttribute('version', 1.1);
+        svg.setAttribute('width', svg.getAttribute('width') || '500');
+        svg.setAttribute('height', svg.getAttribute('height') || '900');
 
         return svg.outerHTML || new window.XMLSerializer().serializeToString(svg);
       }
@@ -163,6 +174,12 @@
         return new Blob([html], { type: 'text/xml' });
       }
     }, {
+      key: 'getUri',
+      value: function getUri(el) {
+        var html = this.getHTML(el);
+        return 'data:image/svg+xml;base64,' + window.btoa(html);
+      }
+    }, {
       key: 'asSvg',
       value: function asSvg(el, filename) {
         if (!filename || filename === '') {
@@ -170,7 +187,40 @@
           filename = (filename || 'untitled') + '.svg';
         }
 
-        return (0, _saveAs['default'])(this.getBlob(el), filename);
+        if (isDefined(window.saveAs)) {
+          return saveAs(this.getBlob(el), filename);
+        } else {
+          return saveUri(this.getUri(el), filename);
+        }
+      }
+    }, {
+      key: 'asPng',
+      value: function asPng(el, filename) {
+        if (!filename || filename === '') {
+          filename = el.getAttribute('title');
+          filename = (filename || 'untitled') + '.png';
+        }
+
+        var canvas = document.createElement('canvas');
+        var context = canvas.getContext('2d');
+
+        var image = new Image();
+        image.onload = function () {
+          canvas.width = image.width;
+          canvas.height = image.height;
+          context.drawImage(image, 0, 0);
+
+          if (isDefined(window.saveAs)) {
+            canvas.toBlob(function (blob) {
+              saveAs(blob, filename);
+            });
+          } else {
+            var uri = canvas.toDataURL('image/png');
+
+            saveUri(uri, filename);
+          }
+        };
+        image.src = this.getUri(el);
       }
     }]);
 

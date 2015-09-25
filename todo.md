@@ -11,7 +11,8 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 - [ ] Make white lists optional
 - [ ] Include better whitelists.
 - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), normalize?
-- [ ] image download (png, etc)
+- [x] image download (png, etc)
+  - [ ] Fix IE (https://github.com/gabelerner/canvg)
 - [ ] getUri?
 - [x] bower.json
 - [x] publish to bower

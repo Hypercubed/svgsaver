@@ -4,14 +4,14 @@
   "description": "download an SVG element with css styles",
   "main": "index.js",
   "jspm": {
-    "main": "src/SvgSaver.js"
+    "main": "src/svgsaver.js"
   },
   "scripts": {
     "babel": "rollup ./src/index.js -e html5-filesaver.js | babel -o index.js -m umd --module-id SvgSaver -f ./src/index.js --no-comments",
     "test": "npm run build && karma start",
     "build": "npm run babel",
     "lint": "eslint src/index.js",
-    "watch": "watch \"npm run babel\" ./src/"
+    "watch": "watch \"npm run babel\" src/"
   },
   "keywords": [
     "svg",

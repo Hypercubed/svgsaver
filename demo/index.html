@@ -33,9 +33,11 @@
 	 <path id="drop" d="m69.369 186.12l-3.066 10.683s-.8 3.861 2.84 4.546c3.8-.074 3.486-3.627 3.223-4.781z"/>
 	</svg>
 
-	<button id="asSvg">Download svg...</button>
+	<button id="asSvg">Download as SVG...</button>
+  <button id="asPng">Download as PNG...</button>
 
-  <script src="../node_modules/html5-filesaver.js/FileSaver.js"></script>
+  <script src="//rawgit.com/blueimp/JavaScript-Canvas-to-Blob/master/js/canvas-to-blob.js"></script>
+  <script src="//rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
 	<script src="../index.js"></script>
 	<script>
     var svgsaver = new SvgSaver();
@@ -43,6 +45,9 @@
 		document.querySelector('#asSvg').addEventListener('click', function() {
 			svgsaver.asSvg(octocat);
 		});
+    document.querySelector('#asPng').addEventListener('click', function() {
+      svgsaver.asPng(octocat);
+    });
 	</script>
 </body>
 </html>
