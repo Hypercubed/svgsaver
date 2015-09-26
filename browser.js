@@ -215,7 +215,7 @@
           canvas.height = image.height;
           context.drawImage(image, 0, 0);
 
-          if (isDefined(window.saveAs)) {
+          if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
             canvas.toBlob(function (blob) {
               (0, _saveAs['default'])(blob, filename);
             });

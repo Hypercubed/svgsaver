@@ -78,7 +78,7 @@ export class SvgSaver {
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
 
-    // height and width needed to download in FireFox 
+    // height and width needed to download in FireFox
     svg.setAttribute('width', svg.getAttribute('width') || '500');
     svg.setAttribute('height', svg.getAttribute('height') || '900');
 
@@ -125,7 +125,7 @@ export class SvgSaver {
       canvas.height = image.height;
       context.drawImage(image, 0, 0);
 
-      if (isDefined(window.saveAs)) {
+      if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
         canvas.toBlob(function(blob) {
           saveAs(blob, filename);
         });
