@@ -1,12 +1,9 @@
+import saveAs from 'html5-filesaver.js';
 import {svgAttrs, svgStyles} from './collection';
 
 function isUndefined(value) {return typeof value === 'undefined';}
 function isDefined(value) {return typeof value !== 'undefined';}
 var forEach = Array.prototype.forEach;
-
-//detection
-var DownloadAttributeSupport = 'download' in document.createElement('a');
-//navigator.saveBlob = navigator.saveBlob || navigator.msSaveBlob || navigator.mozSaveBlob || navigator.webkitSaveBlob;
 
 // adapted from https://github.com/angular/angular.js/issues/2866#issuecomment-31012434
 function getStyles(node, name) {
@@ -56,7 +53,8 @@ function cloneSvg(src) {
   return clonedSvg;
 }
 
-//var getURL = window.URL || window.webkitURL || window;
+//detection
+var DownloadAttributeSupport = 'download' in document.createElement('a');
 
 function saveUri(url, name){
   if (DownloadAttributeSupport) {
@@ -65,12 +63,11 @@ function saveUri(url, name){
     dl.setAttribute('download', name);
     dl.click();
   } else {
-    //console.log(url);
     window.open(url, '_blank', '');
   }
 }
 
-export default class SvgSaver {
+export class SvgSaver {
   constructor(opts) {
     // todo: options
   }
@@ -80,6 +77,8 @@ export default class SvgSaver {
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
+
+    // height and width needed to download in FireFox 
     svg.setAttribute('width', svg.getAttribute('width') || '500');
     svg.setAttribute('height', svg.getAttribute('height') || '900');
 
@@ -126,31 +125,19 @@ export default class SvgSaver {
       canvas.height = image.height;
       context.drawImage(image, 0, 0);
 
-
-
-      //if (isDefined(navigator.saveBlob)) {
-      //  canvas.toBlob(function(blob) {
-      //    console.log('saveBlob', blob);
-      //    navigator.saveBlob(blob, filename);
-      //  });
-      //} else
       if (isDefined(window.saveAs)) {
         canvas.toBlob(function(blob) {
-          //console.log('saveAs', blob);
           saveAs(blob, filename);
         });
       } else {
         var uri = canvas.toDataURL('image/png');
-        //console.log('uri', uri);
         saveUri(uri, filename);
       }
 
-    }
+    };
     image.src = this.getUri(el);
-    //console.log('src', image.src);
   }
 
 }
 
-// allows require('svgsaver') in JSPM for common interface
-export var __useDefault = true;
+export default SvgSaver;

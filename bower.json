@@ -1,7 +1,7 @@
 {
   "name": "svgsaver",
   "description": "download an SVG element with css styles",
-  "main": "index.js",
+  "main": "browser.js",
   "homepage": "https://github.com/Hypercubed/svgsaver",
   "authors": [
     "J. Harshbarger <hypercubed@gmail.com>"

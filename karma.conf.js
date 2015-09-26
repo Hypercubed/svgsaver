@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'index.js',
+      'browser.js',
       'test/*-spec.js'
     ],
 
@@ -59,7 +59,7 @@ module.exports = function(config) {
     browsers: [
       'PhantomJS'
       , 'Chrome'
-      , 'Firefox'
+      //, 'Firefox'
       , 'IE'
     ],
 

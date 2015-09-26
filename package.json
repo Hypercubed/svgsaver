@@ -3,15 +3,20 @@
   "version": "0.1.3",
   "description": "download an SVG element with css styles",
   "main": "index.js",
+  "browser": "browser.js",
   "jspm": {
-    "main": "src/svgsaver.js"
+    "main": "index.js"
   },
   "scripts": {
-    "babel": "rollup ./src/index.js -e html5-filesaver.js | babel -o index.js -m umd --module-id SvgSaver -f ./src/index.js --no-comments",
+    "babel": "babel ./src/ -d lib/ --no-comments  --source-maps",
+    "roll": "rollup index.es6.js -e html5-filesaver.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
+    "uglify": "uglifyjs browser.js -o browser.min.js --source-map browser.min.js.map",
     "test": "npm run build && karma start",
-    "build": "npm run babel",
+    "build": "npm run babel && npm run roll && npm run uglify",
     "lint": "eslint src/index.js",
-    "watch": "watch \"npm run babel\" src/"
+    "watch": "watch \"npm run build\" src/",
+    "start": "live-server --open=demo",
+    "prepublish": "npm test"
   },
   "keywords": [
     "svg",
@@ -31,6 +36,7 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "phantomjs": "^1.9.18",
     "rollup": "^0.16.4",
+    "uglifyjs": "^2.4.10",
     "watch": "^0.16.0"
   },
   "dependencies": {
