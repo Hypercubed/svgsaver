@@ -1,6 +1,6 @@
 {
   "name": "svgsaver",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "download an SVG element with css styles",
   "main": "index.js",
   "browser": "browser.js",
