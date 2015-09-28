@@ -15,7 +15,8 @@
     "build": "npm run babel && npm run roll && npm run uglify",
     "lint": "eslint src/index.js",
     "watch": "watch \"npm run build\" src/",
-    "start": "live-server --open=demo",
+    "demo": "live-server --open=demo --ignore=src",
+    "start": "npm run demo & npm run watch",
     "prepublish": "npm test"
   },
   "keywords": [
@@ -34,6 +35,7 @@
     "karma-ie-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.6",
     "karma-phantomjs-launcher": "^0.2.1",
+    "live-server": "^0.8.1",
     "phantomjs": "^1.9.18",
     "rollup": "^0.16.4",
     "uglifyjs": "^2.4.10",
@@ -41,5 +43,16 @@
   },
   "dependencies": {
     "html5-filesaver.js": "0.0.2"
-  }
+  },
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hypercubed/svgsaver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Hypercubed/svgsaver/issues"
+  },
+  "homepage": "https://github.com/Hypercubed/svgsaver#readme"
 }

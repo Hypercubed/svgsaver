@@ -94,6 +94,9 @@
   function isDefined(value) {
     return typeof value !== 'undefined';
   }
+  function isFunction(value) {
+    return typeof value === 'function';
+  }
   var forEach = Array.prototype.forEach;
 
   function getStyles(node, name) {
@@ -192,7 +195,7 @@
           filename = (filename || 'untitled') + '.svg';
         }
 
-        if (isDefined(window.saveAs)) {
+        if (isDefined(window.saveAs) && isFunction(Blob)) {
           return (0, _saveAs['default'])(this.getBlob(el), filename);
         } else {
           return saveUri(this.getUri(el), filename);

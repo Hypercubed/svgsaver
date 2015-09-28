@@ -3,6 +3,7 @@ import {svgAttrs, svgStyles} from './collection';
 
 function isUndefined(value) {return typeof value === 'undefined';}
 function isDefined(value) {return typeof value !== 'undefined';}
+function isFunction(value) {return typeof value === 'function';}
 var forEach = Array.prototype.forEach;
 
 // adapted from https://github.com/angular/angular.js/issues/2866#issuecomment-31012434
@@ -102,7 +103,7 @@ export class SvgSaver {
       filename = (filename || 'untitled')+'.svg';
     }
 
-    if (isDefined(window.saveAs)) {
+    if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
     } else {
       return saveUri(this.getUri(el), filename);
