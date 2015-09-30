@@ -155,6 +155,7 @@
     } else {
       window.open(url, '_blank', '');
     }
+    return true;
   }
 
   var SvgSaver = (function () {
@@ -196,10 +197,11 @@
         }
 
         if (isDefined(window.saveAs) && isFunction(Blob)) {
-          return (0, _saveAs['default'])(this.getBlob(el), filename);
+          (0, _saveAs['default'])(this.getBlob(el), filename);
         } else {
-          return saveUri(this.getUri(el), filename);
+          saveUri(this.getUri(el), filename);
         }
+        return this;
       }
     }, {
       key: 'asPng',
@@ -228,6 +230,7 @@
           }
         };
         image.src = this.getUri(el);
+        return true;
       }
     }]);
 
