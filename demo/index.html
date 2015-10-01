@@ -36,6 +36,9 @@
 	<button id="asSvg">Download as SVG...</button>
   <button id="asPng">Download as PNG...</button>
 
+  <!-- these are included to test maximum cross browser compatability, see https://github.com/Hypercubed/svgsaver/wiki/Compatibility-Chart -->
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-shim.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.1.13/es5-sham.js"></script>
   <script src="//rawgit.com/eligrey/Blob.js/master/Blob.js"></script>
   <script src="//rawgit.com/eligrey/canvas-toBlob.js/master/canvas-toBlob.js"></script>
   <script src="//rawgit.com/eligrey/FileSaver.js/master/FileSaver.js"></script>
@@ -43,6 +46,7 @@
 	<script>
     var svgsaver = new SvgSaver();
     var octocat = document.querySelector('#octocat');
+
 		document.querySelector('#asSvg').addEventListener('click', function() {
 			svgsaver.asSvg(octocat);
 		});

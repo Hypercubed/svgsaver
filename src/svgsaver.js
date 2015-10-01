@@ -126,8 +126,10 @@ export class SvgSaver {
   */
   getUri(el) {
     var html = this.getHTML(el);
-    return 'data:image/svg+xml;base64,' + window.btoa(html);
-    //return "data:image/svg+xml," + encodeURIComponent(html);
+    if (isDefined(window.btoa)) {
+      return 'data:image/svg+xml;base64,' + window.btoa(html);
+    }
+    return "data:image/svg+xml," + encodeURIComponent(html);
   }
 
   /**
