@@ -4,52 +4,79 @@ import {svgAttrs, svgStyles} from './collection';
 function isUndefined(value) {return typeof value === 'undefined';}
 function isDefined(value) {return typeof value !== 'undefined';}
 function isFunction(value) {return typeof value === 'function';}
-var forEach = Array.prototype.forEach;
 
 // adapted from https://github.com/angular/angular.js/issues/2866#issuecomment-31012434
-function getStyles(node, name) {
-  var val;
-
+function getComputedStyles(node) {
   if (isDefined(node.currentStyle)) {  //for old IE
-    val = node.currentStyle[name];
+    return node.currentStyle;
   } else if (isDefined(window.getComputedStyle)){  //for modern browsers
-    val = node.ownerDocument.defaultView.getComputedStyle(node,null)[name];
+    return node.ownerDocument.defaultView.getComputedStyle(node,null);
   } else {
-    val = node.style[name];
+    return node.style;
   }
-  return  (val === '') ? undefined : val;
 }
 
-function copyStyles(source, target) {
-  for (var key in svgStyles) {
-    var _default = svgStyles[key];
-    var src = getStyles(source,key);
-    //var tgt = getStyles(target,key);
-    var par = getStyles(target.parentNode,key);
-    if (src && src !== _default /* &&  src !== tgt */ && src !== par  ) {
+// convert computed styles to something we can iterate over
+// adapted from http://stackoverflow.com/questions/754607/can-jquery-get-all-css-styles-associated-with-an-element/6416527#6416527
+function convertComputedStyle(computed) {
+  if(isDefined(window.getComputedStyle)){
+    var styles = {};
+    for(var i = 0, l = computed.length; i < l; i++){
+      var prop = computed[i];
+      var val = computed.getPropertyValue(prop);
+      styles[prop] = val;
+    }
+    return styles;
+  }
+  return computed;
+}
+
+function copyStyles(source, target, defaultStyles) {  // styles === false - copy none, true - copy all
+  if (defaultStyles === false) { return; }
+
+  var srcStyles = getComputedStyles(source);
+
+  if (defaultStyles === true) {    // copy all styles
+    for (let key in convertComputedStyle(srcStyles)) {
+      target.style[key] = srcStyles[key];
+    }
+    return;
+  }
+
+  var parStyles = getComputedStyles(target.parentNode);
+
+  for (let key in defaultStyles) {
+    var src = srcStyles[key];
+    if (src && src !== defaultStyles[key] && src !== parStyles[key] ) {
       target.style[key] = src;
     }
   }
 }
 
-function cleanAttrs(el) {
-  forEach.call(el.attributes, function(attr) {
-    // remove if it is not style nor on whitelist
-    // keeping attributes that are also styles because some styles are not copied
-    if(attr.specified && isUndefined(svgStyles[attr.name]) && svgAttrs.indexOf(attr.name) < 0) {
-      el.removeAttribute(attr.name);
-    }
-  });
+function cleanAttrs(el, attrs, styles) {  // attrs === false - remove all, attrs === true - allow all
+  if (attrs === true) { return; }
+
+  Array.prototype.slice.call(el.attributes)
+    .forEach(function(attr) {
+      // remove if it is not style nor on attrs  whitelist
+      // keeping attributes that are also styles because attributes override
+      if (attr.specified) {
+        if(attrs === false || (isUndefined(styles[attr.name]) && attrs.indexOf(attr.name) < 0)) {
+          el.removeAttribute(attr.name);
+        }
+      }
+    });
 }
 
-function cloneSvg(src) {
+function cloneSvg(src, attrs, styles) {
   var clonedSvg = src.cloneNode(true);
   var srcChildren = src.querySelectorAll('*');
 
-  forEach.call(clonedSvg.querySelectorAll('*'), function( target, index ){
-    copyStyles(srcChildren[index], target);
-    cleanAttrs(target);
-  });
+  Array.prototype.slice.call(clonedSvg.querySelectorAll('*'))
+    .forEach(function( target, index ) {
+      copyStyles(srcChildren[index], target, styles);
+      cleanAttrs(target, attrs, styles);
+    });
 
   return clonedSvg;
 }
@@ -81,8 +108,10 @@ export class SvgSaver {
   * var svg = document.querySelector('#mysvg');         // find the SVG element
   * svgsaver.asSvg(svg);                                // save as SVG
   */
-  constructor(opts) {
+  constructor(opts = {}) {
     // todo: options
+    this.attrs = (opts.attrs === undefined) ? svgAttrs : opts.attrs;
+    this.styles = (opts.styles === undefined) ? svgStyles : opts.styles;
   }
 
   /**
@@ -93,7 +122,7 @@ export class SvgSaver {
   * @api public
   */
   getHTML(el) {
-    var svg = cloneSvg(el);
+    var svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
@@ -129,7 +158,7 @@ export class SvgSaver {
     if (isDefined(window.btoa)) {
       return 'data:image/svg+xml;base64,' + window.btoa(html);
     }
-    return "data:image/svg+xml," + encodeURIComponent(html);
+    return 'data:image/svg+xml,' + encodeURIComponent(html);
   }
 
   /**

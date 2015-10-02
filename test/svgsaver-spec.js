@@ -37,6 +37,102 @@ describe('svgsaver#getHTML', function() {
 
 });
 
+describe('svgsaver options', function() {
+
+  document.body.innerHTML += '<style>rect { stroke-opacity: 0.75; fill-opacity: 0.25; }</style>';
+  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5;"/></svg>';
+
+  it('should remove all attributes and styles when false', function() {
+
+    var svgSaver = new SvgSaver({
+      styles: false,
+      attrs: false
+    });
+
+    var e = document.querySelector('#svg-0');
+    var html = svgSaver.getHTML(e);
+    //console.log('clean',html);
+    expect(html).not.toContain('opacity: 0.5;');
+    expect(html).not.toContain('stroke-opacity: 0.75;');
+    expect(html).not.toContain('ng-scope');
+    expect(html).not.toContain('x="10"');
+    expect(html).not.toContain('y="10"');
+  });
+
+  it('should remove all attributes and styles when empty', function() {
+
+    var svgSaver = new SvgSaver({
+      styles: {},
+      attrs: []
+    });
+
+    var e = document.querySelector('#svg-0');
+    var html = svgSaver.getHTML(e);
+    //console.log('clean',html);
+    expect(html).not.toContain('opacity: 0.5;');
+    expect(html).not.toContain('stroke-opacity: 0.75;');
+    expect(html).not.toContain('ng-scope');
+    expect(html).not.toContain('x="10"');
+    expect(html).not.toContain('y="10"');
+  });
+
+  it('should retain inline styles and CSS styles in whitelist', function() {
+
+    var svgSaver = new SvgSaver({
+      styles: {
+        'stroke-opacity':'1'
+      },
+      attrs: ['style']
+    });
+
+    var e = document.querySelector('#svg-0');
+    var html = svgSaver.getHTML(e);
+    //console.log('min',html);
+    expect(html).toContain('opacity: 0.5;');
+    expect(html).toContain('stroke-opacity: 0.75;');
+    expect(html).not.toContain('ng-scope');
+    expect(html).not.toContain('x="10"');
+    expect(html).not.toContain('y="10"');
+  });
+
+  it('should retain inline styles and attributes in whitelist', function() {
+
+    var svgSaver = new SvgSaver({
+      styles: {
+        'stroke-opacity':'1'
+      },
+      attrs: ['style', 'ng-scope','x']
+    });
+
+    var e = document.querySelector('#svg-0');
+    var html = svgSaver.getHTML(e);
+    //console.log('min',html);
+    expect(html).toContain('opacity: 0.5;');
+    expect(html).toContain('stroke-opacity: 0.75;');
+    expect(html).toContain('ng-scope');
+    expect(html).toContain('x="10"');
+    expect(html).not.toContain('y="10"');
+  });
+
+  it('should copy all attributes and styles when true', function() {
+
+    var svgSaver = new SvgSaver({
+      attrs: true,  // copy all attributes
+      styles: true  // copy all styles
+    });
+
+    var e = document.querySelector('#svg-0');
+    var html = svgSaver.getHTML(e);
+    //console.log('all',html);
+    expect(html).toContain('opacity: 0.5;');
+    expect(html).toContain('stroke-opacity: 0.75;');
+    expect(html).toContain('ng-scope');
+    expect(html).toContain('x="10"');
+    expect(html).toContain('y="10"');
+  });
+
+});
+
 describe('svgsaver#getBlob', function() {
 
   var svgSaver = new SvgSaver();

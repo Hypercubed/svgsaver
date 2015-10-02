@@ -97,48 +97,75 @@
   function isFunction(value) {
     return typeof value === 'function';
   }
-  var forEach = Array.prototype.forEach;
 
-  function getStyles(node, name) {
-    var val;
-
+  function getComputedStyles(node) {
     if (isDefined(node.currentStyle)) {
-      val = node.currentStyle[name];
+      return node.currentStyle;
     } else if (isDefined(window.getComputedStyle)) {
-      val = node.ownerDocument.defaultView.getComputedStyle(node, null)[name];
+      return node.ownerDocument.defaultView.getComputedStyle(node, null);
     } else {
-      val = node.style[name];
+      return node.style;
     }
-    return val === '' ? undefined : val;
   }
 
-  function copyStyles(source, target) {
-    for (var key in svgStyles) {
-      var _default = svgStyles[key];
-      var src = getStyles(source, key);
+  function convertComputedStyle(computed) {
+    if (isDefined(window.getComputedStyle)) {
+      var styles = {};
+      for (var i = 0, l = computed.length; i < l; i++) {
+        var prop = computed[i];
+        var val = computed.getPropertyValue(prop);
+        styles[prop] = val;
+      }
+      return styles;
+    }
+    return computed;
+  }
 
-      var par = getStyles(target.parentNode, key);
-      if (src && src !== _default && src !== par) {
+  function copyStyles(source, target, defaultStyles) {
+    if (defaultStyles === false) {
+      return;
+    }
+
+    var srcStyles = getComputedStyles(source);
+
+    if (defaultStyles === true) {
+      for (var key in convertComputedStyle(srcStyles)) {
+        target.style[key] = srcStyles[key];
+      }
+      return;
+    }
+
+    var parStyles = getComputedStyles(target.parentNode);
+
+    for (var key in defaultStyles) {
+      var src = srcStyles[key];
+      if (src && src !== defaultStyles[key] && src !== parStyles[key]) {
         target.style[key] = src;
       }
     }
   }
 
-  function cleanAttrs(el) {
-    forEach.call(el.attributes, function (attr) {
-      if (attr.specified && isUndefined(svgStyles[attr.name]) && svgAttrs.indexOf(attr.name) < 0) {
-        el.removeAttribute(attr.name);
+  function cleanAttrs(el, attrs, styles) {
+    if (attrs === true) {
+      return;
+    }
+
+    Array.prototype.slice.call(el.attributes).forEach(function (attr) {
+      if (attr.specified) {
+        if (attrs === false || isUndefined(styles[attr.name]) && attrs.indexOf(attr.name) < 0) {
+          el.removeAttribute(attr.name);
+        }
       }
     });
   }
 
-  function cloneSvg(src) {
+  function cloneSvg(src, attrs, styles) {
     var clonedSvg = src.cloneNode(true);
     var srcChildren = src.querySelectorAll('*');
 
-    forEach.call(clonedSvg.querySelectorAll('*'), function (target, index) {
-      copyStyles(srcChildren[index], target);
-      cleanAttrs(target);
+    Array.prototype.slice.call(clonedSvg.querySelectorAll('*')).forEach(function (target, index) {
+      copyStyles(srcChildren[index], target, styles);
+      cleanAttrs(target, attrs, styles);
     });
 
     return clonedSvg;
@@ -159,14 +186,19 @@
   }
 
   var SvgSaver = (function () {
-    function SvgSaver(opts) {
+    function SvgSaver() {
+      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
       _classCallCheck(this, SvgSaver);
+
+      this.attrs = opts.attrs === undefined ? svgAttrs : opts.attrs;
+      this.styles = opts.styles === undefined ? svgStyles : opts.styles;
     }
 
     _createClass(SvgSaver, [{
       key: 'getHTML',
       value: function getHTML(el) {
-        var svg = cloneSvg(el);
+        var svg = cloneSvg(el, this.attrs, this.styles);
 
         svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
         svg.setAttribute('version', 1.1);
@@ -189,7 +221,7 @@
         if (isDefined(window.btoa)) {
           return 'data:image/svg+xml;base64,' + window.btoa(html);
         }
-        return "data:image/svg+xml," + encodeURIComponent(html);
+        return 'data:image/svg+xml,' + encodeURIComponent(html);
       }
     }, {
       key: 'asSvg',

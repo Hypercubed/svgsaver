@@ -11,7 +11,9 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 - [ ] If element is HTMLElement find first (all) SVG?
 - [ ] Make white lists optional
 - [ ] Include better whitelists.
-- [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), normalize?
+  - [ ]  Not all styles are inheritable
+  - [ ] styles can be converted to attributes
+  - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), normalize?
 - [x] image download (png, etc)
   - [ ] Fix IE11 (https://github.com/gabelerner/canvg)
 - [x] getUri?
