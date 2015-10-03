@@ -9,7 +9,7 @@
   },
   "scripts": {
     "babel": "babel ./src/ -d lib/ --no-comments  --source-maps",
-    "roll": "rollup index.es6.js -e html5-filesaver.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
+    "roll": "rollup index.es6.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
     "uglify": "uglifyjs browser.js -o browser.min.js --source-map browser.min.js.map",
     "test": "npm run build && karma start",
     "build": "npm run babel && npm run roll && npm run uglify",
@@ -43,9 +43,7 @@
     "jsdoc-parse": "^1.1.0",
     "dmd": "^1.2.0"
   },
-  "dependencies": {
-    "html5-filesaver.js": "0.0.2"
-  },
+  "dependencies": {},
   "directories": {
     "test": "test"
   },
