@@ -17,7 +17,6 @@
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
     "start": "npm run demo & npm run watch",
-    "prepublish": "npm test",
     "jsdoc2md": "jsdoc-parse ./src/svgsaver.js | dmd > api.md"
   },
   "keywords": [
