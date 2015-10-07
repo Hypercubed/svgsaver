@@ -63,7 +63,7 @@ function cleanAttrs(el, attrs, styles) {  // attrs === false - remove all, attrs
     });
 }
 
-export default function cloneSvg(src, attrs, styles) {
+export function cloneSvg(src, attrs, styles) {
   var clonedSvg = src.cloneNode(true);
   var srcChildren = src.querySelectorAll('*');
 

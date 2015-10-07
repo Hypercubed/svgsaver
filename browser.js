@@ -27,6 +27,51 @@
     return typeof value === 'undefined';
   }
 
+  var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
+
+  function saveUri(uri, name) {
+
+    if (isDefined(window.saveAs) && isFunction(Blob)) {
+      return saveAs(this.getBlob(el), name);
+    } else {
+      if (DownloadAttributeSupport) {
+        var dl = document.createElement('a');
+        dl.setAttribute('href', uri);
+        dl.setAttribute('download', name);
+        dl.click();
+        return true;
+      } else if (typeof window !== 'undefined') {
+        window.open(uri, '_blank', '');
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  function savePng(uri, name) {
+    var canvas = document.createElement('canvas');
+    var context = canvas.getContext('2d');
+
+    var image = new Image();
+    image.onload = function () {
+      canvas.width = image.width;
+      canvas.height = image.height;
+      context.drawImage(image, 0, 0);
+
+      if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
+        canvas.toBlob(function (blob) {
+          saveAs(blob, name);
+        });
+      } else {
+        var uri = canvas.toDataURL('image/png');
+        saveUri(uri, name);
+      }
+    };
+    image.src = uri;
+    return true;
+  }
+
   function getComputedStyles(node) {
     if (isDefined(node.currentStyle)) {
       return node.currentStyle;
@@ -167,8 +212,6 @@
 
   var svgAttrs = ['id', 'xml:base', 'xml:lang', 'xml:space', 'height', 'result', 'width', 'x', 'y', 'xlink:href', 'style', 'class', 'd', 'pathLength', 'x', 'y', 'dx', 'dy', 'glyphRef', 'format', 'x1', 'y1', 'x2', 'y2', 'rotate', 'textLength', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'width', 'height', 'refX', 'refY', 'orient', 'markerUnits', 'markerWidth', 'markerHeight', 'maskUnits', 'transform', 'viewBox', 'version', 'preserveAspectRatio', 'xmlns', 'points', 'offset'];
 
-  var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
-
   var SvgSaver = (function () {
     function SvgSaver() {
       var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -215,12 +258,7 @@
           filename = (filename || 'untitled') + '.svg';
         }
 
-        if (isDefined(window.saveAs) && isFunction(Blob)) {
-          saveAs(this.getBlob(el), filename);
-        } else {
-          saveUri(this.getUri(el), filename);
-        }
-        return this;
+        return saveUri(this.getUri(el), filename);
       }
     }, {
       key: 'asPng',
@@ -230,26 +268,7 @@
           filename = (filename || 'untitled') + '.png';
         }
 
-        var canvas = document.createElement('canvas');
-        var context = canvas.getContext('2d');
-
-        var image = new Image();
-        image.onload = function () {
-          canvas.width = image.width;
-          canvas.height = image.height;
-          context.drawImage(image, 0, 0);
-
-          if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
-            canvas.toBlob(function (blob) {
-              saveAs(blob, filename);
-            });
-          } else {
-            var uri = canvas.toDataURL('image/png');
-            saveUri(uri, filename);
-          }
-        };
-        image.src = this.getUri(el);
-        return true;
+        return savePng(this.getUri(el), filename);
       }
     }]);
 

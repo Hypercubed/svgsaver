@@ -1,6 +1,6 @@
 import {svgAttrs, svgStyles} from './collection';
-import cloneSvg from './clonesvg';
-import saveuri from './saveuri';
+import {cloneSvg} from './clonesvg';
+import {saveUri, savePng} from './saveuri';
 import {isDefined, isFunction} from './utils';
 
 export class SvgSaver {
@@ -82,12 +82,7 @@ export class SvgSaver {
       filename = (filename || 'untitled')+'.svg';
     }
 
-    if (isDefined(window.saveAs) && isFunction(Blob)) {
-      saveAs(this.getBlob(el), filename);
-    } else {
-      saveUri(this.getUri(el), filename);
-    }
-    return this;
+    return saveUri(this.getUri(el), filename);
 
   }
 
@@ -105,27 +100,7 @@ export class SvgSaver {
       filename = (filename || 'untitled')+'.png';
     }
 
-    var canvas = document.createElement('canvas');
-    var context = canvas.getContext('2d');
-
-    var image = new Image();
-    image.onload = function() {
-      canvas.width = image.width;
-      canvas.height = image.height;
-      context.drawImage(image, 0, 0);
-
-      if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
-        canvas.toBlob(function(blob) {
-          saveAs(blob, filename);
-        });
-      } else {
-        var uri = canvas.toDataURL('image/png');
-        saveUri(uri, filename);
-      }
-
-    };
-    image.src = this.getUri(el);
-    return true;
+    return savePng(this.getUri(el), filename);
   }
 
 }
