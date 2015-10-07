@@ -27,8 +27,10 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.23",
+    "dmd": "^1.2.0",
     "eslint": "^1.4.3",
     "jasmine-core": "^2.3.4",
+    "jsdoc-parse": "^1.1.0",
     "karma": "^0.13.9",
     "karma-chrome-launcher": "^0.2.0",
     "karma-firefox-launcher": "^0.1.6",
@@ -39,9 +41,7 @@
     "phantomjs": "^1.9.18",
     "rollup": "^0.16.4",
     "uglifyjs": "^2.4.10",
-    "watch": "^0.16.0",
-    "jsdoc-parse": "^1.1.0",
-    "dmd": "^1.2.0"
+    "watch": "^0.16.0"
   },
   "dependencies": {},
   "directories": {
