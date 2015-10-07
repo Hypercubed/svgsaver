@@ -17,33 +17,29 @@
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-  function isDefined(value) {
-    return typeof value !== 'undefined';
-  }
-  function isFunction(value) {
-    return typeof value === 'function';
-  }
-  function isUndefined(value) {
-    return typeof value === 'undefined';
-  }
+  var isFunction = function isFunction(a) {
+    return typeof a === 'function';
+  };
+  var isDefined = function isDefined(a) {
+    return typeof a !== 'undefined';
+  };
+  var isUndefined = function isUndefined(a) {
+    return typeof a === 'undefined';
+  };
 
   var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
 
   function saveUri(uri, name) {
 
-    if (isDefined(window.saveAs) && isFunction(Blob)) {
-      return saveAs(this.getBlob(el), name);
-    } else {
-      if (DownloadAttributeSupport) {
-        var dl = document.createElement('a');
-        dl.setAttribute('href', uri);
-        dl.setAttribute('download', name);
-        dl.click();
-        return true;
-      } else if (typeof window !== 'undefined') {
-        window.open(uri, '_blank', '');
-        return true;
-      }
+    if (DownloadAttributeSupport) {
+      var dl = document.createElement('a');
+      dl.setAttribute('href', uri);
+      dl.setAttribute('download', name);
+      dl.click();
+      return true;
+    } else if (typeof window !== 'undefined') {
+      window.open(uri, '_blank', '');
+      return true;
     }
 
     return false;
@@ -257,8 +253,11 @@
           filename = el.getAttribute('title');
           filename = (filename || 'untitled') + '.svg';
         }
-
-        return saveUri(this.getUri(el), filename);
+        if (isDefined(window.saveAs) && isFunction(Blob)) {
+          return saveAs(this.getBlob(el), filename);
+        } else {
+          return saveUri(this.getUri(el), filename);
+        }
       }
     }, {
       key: 'asPng',
@@ -267,7 +266,6 @@
           filename = el.getAttribute('title');
           filename = (filename || 'untitled') + '.png';
         }
-
         return savePng(this.getUri(el), filename);
       }
     }]);

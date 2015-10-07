@@ -5,19 +5,15 @@ var DownloadAttributeSupport = (typeof document !== 'undefined') && ('download' 
 
 export function saveUri(uri, name){
 
-  if (isDefined(window.saveAs) && isFunction(Blob)) {
-    return saveAs(this.getBlob(el), name);
-  } else {
-    if (DownloadAttributeSupport) {
-      var dl = document.createElement('a');
-      dl.setAttribute('href', uri);
-      dl.setAttribute('download', name);
-      dl.click();
-  		return true;
-    } else if (typeof window !== 'undefined') {
-      window.open(uri, '_blank', '');
-  		return true;
-  	}
+  if (DownloadAttributeSupport) {
+    var dl = document.createElement('a');
+    dl.setAttribute('href', uri);
+    dl.setAttribute('download', name);
+    dl.click();
+    return true;
+  } else if (typeof window !== 'undefined') {
+    window.open(uri, '_blank', '');
+    return true;
   }
   
   return false;

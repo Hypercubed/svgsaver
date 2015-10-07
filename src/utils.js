@@ -1,3 +1,3 @@
-export function isDefined(value) {return typeof value !== 'undefined';}
-export function isFunction(value) {return typeof value === 'function';}
-export function isUndefined(value) {return typeof value === 'undefined';}
+export const isFunction = (a) => typeof a === 'function';
+export const isDefined = (a) => typeof a !== 'undefined';
+export const isUndefined = (a) => typeof a === 'undefined';

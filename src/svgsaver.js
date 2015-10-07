@@ -16,7 +16,6 @@ export class SvgSaver {
   * svgsaver.asSvg(svg);                                // save as SVG
   */
   constructor(opts = {}) {
-    // todo: options
     this.attrs = (opts.attrs === undefined) ? svgAttrs : opts.attrs;
     this.styles = (opts.styles === undefined) ? svgStyles : opts.styles;
   }
@@ -81,9 +80,11 @@ export class SvgSaver {
       filename = el.getAttribute('title');
       filename = (filename || 'untitled')+'.svg';
     }
-
-    return saveUri(this.getUri(el), filename);
-
+    if (isDefined(window.saveAs) && isFunction(Blob)) {
+      return saveAs(this.getBlob(el), filename);
+    } else {
+      return saveUri(this.getUri(el), filename);
+    }
   }
 
   /**
@@ -99,7 +100,6 @@ export class SvgSaver {
       filename = el.getAttribute('title');
       filename = (filename || 'untitled')+'.png';
     }
-
     return savePng(this.getUri(el), filename);
   }
 
