@@ -1,6 +1,6 @@
 {
   "name": "svgsaver",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "download an SVG element with css styles",
   "main": "index.js",
   "browser": "browser.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "babel": "babel ./src/ -d lib/ --no-comments  --source-maps",
-    "roll": "rollup index.es6.js -e html5-filesaver.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
+    "roll": "rollup index.es6.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
     "uglify": "uglifyjs browser.js -o browser.min.js --source-map browser.min.js.map",
     "test": "npm run build && karma start",
     "build": "npm run babel && npm run roll && npm run uglify",
@@ -17,7 +17,6 @@
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
     "start": "npm run demo & npm run watch",
-    "prepublish": "npm test",
     "jsdoc2md": "jsdoc-parse ./src/svgsaver.js | dmd > api.md"
   },
   "keywords": [
@@ -44,10 +43,7 @@
     "jsdoc-parse": "^1.1.0",
     "dmd": "^1.2.0"
   },
-  "dependencies": {
-    "core-js": "^1.2.1",
-    "html5-filesaver.js": "0.0.2"
-  },
+  "dependencies": {},
   "directories": {
     "test": "test"
   },
