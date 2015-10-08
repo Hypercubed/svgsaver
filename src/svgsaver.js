@@ -1,3 +1,5 @@
+/* global saveAs:true */
+
 import {svgAttrs, svgStyles} from './collection';
 import {cloneSvg} from './clonesvg';
 import {saveUri, savePng} from './saveuri';

@@ -1,7 +1,7 @@
 /* Some utilities for cloning SVGs with inline styles */
 
 
-import {isUndefined, isDefined, isFunction} from './utils';
+import {isUndefined, isDefined} from './utils';
 
 // Gets computed styles for an SVG element
 // adapted from https://github.com/angular/angular.js/issues/2866#issuecomment-31012434

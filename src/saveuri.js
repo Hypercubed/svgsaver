@@ -1,6 +1,8 @@
+/* global saveAs:true */
+
 /* Some simple utilities for saving SVGs, including an alternative to saveAs */
 
-import {isDefined, isFunction} from './utils';
+import {isDefined} from './utils';
 
 //detection
 var DownloadAttributeSupport = (typeof document !== 'undefined') && ('download' in document.createElement('a'));
