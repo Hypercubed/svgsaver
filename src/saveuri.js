@@ -1,3 +1,5 @@
+/* Some simple utilities for saving SVGs, including an alternative to saveAs */
+
 import {isDefined, isFunction} from './utils';
 
 //detection
@@ -15,7 +17,7 @@ export function saveUri(uri, name){
     window.open(uri, '_blank', '');
     return true;
   }
-  
+
   return false;
 }
 

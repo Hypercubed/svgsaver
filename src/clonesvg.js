@@ -1,5 +1,9 @@
+/* Some utilities for cloning SVGs with inline styles */
+
+
 import {isUndefined, isDefined, isFunction} from './utils';
 
+// Gets computed styles for an SVG element
 // adapted from https://github.com/angular/angular.js/issues/2866#issuecomment-31012434
 function getComputedStyles(node) {
   if (isDefined(node.currentStyle)) {  //for old IE
@@ -11,7 +15,7 @@ function getComputedStyles(node) {
   }
 }
 
-// convert computed styles to something we can iterate over
+// Vonvert computed styles to something we can iterate over
 // adapted from http://stackoverflow.com/questions/754607/can-jquery-get-all-css-styles-associated-with-an-element/6416527#6416527
 function convertComputedStyle(computed) {
   if(isDefined(window.getComputedStyle)){
@@ -26,6 +30,7 @@ function convertComputedStyle(computed) {
   return computed;
 }
 
+// Copies computed styles from source to target
 function copyStyles(source, target, defaultStyles) {  // styles === false - copy none, true - copy all
   if (defaultStyles === false) { return; }
 
@@ -48,6 +53,7 @@ function copyStyles(source, target, defaultStyles) {  // styles === false - copy
   }
 }
 
+// Removes attributes that are not valid for SVGs
 function cleanAttrs(el, attrs, styles) {  // attrs === false - remove all, attrs === true - allow all
   if (attrs === true) { return; }
 
@@ -63,6 +69,7 @@ function cleanAttrs(el, attrs, styles) {  // attrs === false - remove all, attrs
     });
 }
 
+// Clones an SVGElement, copyies approprate atttributes and styles.
 export function cloneSvg(src, attrs, styles) {
   var clonedSvg = src.cloneNode(true);
   var srcChildren = src.querySelectorAll('*');
