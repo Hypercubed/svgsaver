@@ -2,10 +2,10 @@
   "name": "svgsaver",
   "version": "0.2.0",
   "description": "download an SVG element with css styles",
-  "main": "index.js",
+  "main": "lib/svgsaver.js",
   "browser": "browser.js",
   "jspm": {
-    "main": "index.js"
+    "main": "lib/svgsaver.js"
   },
   "scripts": {
     "roll:cjs": "rollup ./src/index.js | babel -o ./lib/svgsaver.js",

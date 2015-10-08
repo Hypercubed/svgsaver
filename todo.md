@@ -2,8 +2,6 @@
 
 _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 
-- [x] Rethink exports/API
-- [x] Include small saveSvg shim?
 - [ ] Better string matching in tests
 - [ ] Download multiple SVGs
 - [ ] Make node compatible
@@ -17,7 +15,5 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
   - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), Normalize styles?
 - [x] image download (png, etc)
   - [ ] Fix IE11 (https://github.com/gabelerner/canvg)
-- [x] getUri?
-- [x] bower.json
-- [x] publish to bower
-- [x] publish to npm
+- [ ] Add CHANGELOG.md
+- [ ] Give in to Browserify?

@@ -1,1 +1,1 @@
-module.exports = require('./lib/svgsaver')['default'];
+module.exports = require('./lib/svgsaver');

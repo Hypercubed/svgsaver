@@ -5,12 +5,12 @@
 import {isDefined} from './utils';
 
 //detection
-var DownloadAttributeSupport = (typeof document !== 'undefined') && ('download' in document.createElement('a'));
+const DownloadAttributeSupport = (typeof document !== 'undefined') && ('download' in document.createElement('a'));
 
 export function saveUri(uri, name){
 
   if (DownloadAttributeSupport) {
-    var dl = document.createElement('a');
+    const dl = document.createElement('a');
     dl.setAttribute('href', uri);
     dl.setAttribute('download', name);
     dl.click();
@@ -24,10 +24,10 @@ export function saveUri(uri, name){
 }
 
 export function savePng(uri, name){
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
 
-  var image = new Image();
+  const image = new Image();
   image.onload = function() {
     canvas.width = image.width;
     canvas.height = image.height;
@@ -38,8 +38,7 @@ export function savePng(uri, name){
         saveAs(blob, name);
       });
     } else {
-      var uri = canvas.toDataURL('image/png');
-      saveUri(uri, name);
+      saveUri(canvas.toDataURL('image/png'), name);
     }
 
   };

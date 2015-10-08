@@ -60,8 +60,7 @@
           saveAs(blob, name);
         });
       } else {
-        var uri = canvas.toDataURL('image/png');
-        saveUri(uri, name);
+        saveUri(canvas.toDataURL('image/png'), name);
       }
     };
     image.src = uri;
@@ -210,12 +209,15 @@
 
   var SvgSaver = (function () {
     function SvgSaver() {
-      var opts = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+      var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+      var attrs = _ref.attrs;
+      var styles = _ref.styles;
 
       _classCallCheck(this, SvgSaver);
 
-      this.attrs = opts.attrs === undefined ? svgAttrs : opts.attrs;
-      this.styles = opts.styles === undefined ? svgStyles : opts.styles;
+      this.attrs = attrs === undefined ? svgAttrs : attrs;
+      this.styles = styles === undefined ? svgStyles : styles;
     }
 
     _createClass(SvgSaver, [{

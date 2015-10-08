@@ -17,9 +17,9 @@ export class SvgSaver {
   * var svg = document.querySelector('#mysvg');         // find the SVG element
   * svgsaver.asSvg(svg);                                // save as SVG
   */
-  constructor(opts = {}) {
-    this.attrs = (opts.attrs === undefined) ? svgAttrs : opts.attrs;
-    this.styles = (opts.styles === undefined) ? svgStyles : opts.styles;
+  constructor({ attrs, styles } = {}) {
+    this.attrs = (attrs === undefined) ? svgAttrs : attrs;
+    this.styles = (styles === undefined) ? svgStyles : styles;
   }
 
   /**
