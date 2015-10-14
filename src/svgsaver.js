@@ -30,7 +30,7 @@ export class SvgSaver {
   * @api public
   */
   getHTML(el) {
-    var svg = cloneSvg(el, this.attrs, this.styles);
+    const svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
@@ -50,7 +50,7 @@ export class SvgSaver {
   * @api public
   */
   getBlob(el) {
-    var html = this.getHTML(el);
+    const html = this.getHTML(el);
     return new Blob([html], { type: 'text/xml' });
   }
 
@@ -62,7 +62,7 @@ export class SvgSaver {
   * @api public
   */
   getUri(el) {
-    var html = this.getHTML(el);
+    const html = this.getHTML(el);
     if (isDefined(window.btoa)) {
       return 'data:image/svg+xml;base64,' + window.btoa(html);
     }

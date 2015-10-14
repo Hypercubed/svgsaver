@@ -3,16 +3,12 @@
   "version": "0.2.1",
   "description": "download an SVG element with css styles",
   "main": "lib/svgsaver.js",
-  "browser": "browser.js",
-  "jspm": {
-    "main": "lib/svgsaver.js"
-  },
   "scripts": {
-    "roll:cjs": "rollup ./src/index.js | babel -o ./lib/svgsaver.js",
-    "roll:umd": "rollup ./src/index.js | babel -m umd -o browser.js --module-id SvgSaver --no-comments",
+    "rollup": "rollup ./src/index.js | babel -o ./lib/svgsaver.js",
+    "browserify": "browserify ./lib/svgsaver.js -o browser.js -s SvgSaver --debug",
     "uglify": "uglifyjs browser.js -o browser.min.js",
     "test": "npm run build && karma start",
-    "build": "npm run roll:cjs && npm run roll:umd && npm run uglify && npm run jsdoc2md",
+    "build": "npm run rollup && npm run browserify && npm run uglify && npm run jsdoc2md",
     "lint": "eslint src/*.js",
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
@@ -27,6 +23,7 @@
   "license": "MIT",
   "devDependencies": {
     "babel": "^5.8.23",
+    "browserify": "^11.2.0",
     "dmd": "^1.2.0",
     "eslint": "^1.4.3",
     "jasmine-core": "^2.3.4",

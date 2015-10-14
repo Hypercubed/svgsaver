@@ -1,10 +1,12 @@
 
+var html = '<style>rect { stroke-opacity: 0.75; fill-opacity: 0.25; fill: #0000ff; }</style>';
+html += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5; stroke:#ff0000;"/></svg>';
+
+document.body.innerHTML += html;
+
 describe('svgsaver#getHTML', function() {
 
   var svgSaver = new SvgSaver();
-
-  document.body.innerHTML += '<style>rect { stroke-opacity: 0.75; }</style>';
-  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5;"/></svg>';
 
   it('should convert SVG element', function() {
     var e = document.querySelector('#svg-0');
@@ -39,9 +41,6 @@ describe('svgsaver#getHTML', function() {
 });
 
 describe('svgsaver options', function() {
-
-  document.body.innerHTML += '<style>rect { stroke-opacity: 0.75; fill-opacity: 0.25; }</style>';
-  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5;"/></svg>';
 
   it('should remove all attributes and styles when false', function() {
 
@@ -142,9 +141,6 @@ describe('svgsaver#getBlob', function() {
     window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
   }
 
-  document.body.innerHTML += '<style>rect { fill: #0000ff; }</style>';
-  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="stroke:#ff0000;"/></svg>';
-
   it('should convert SVG element', function() {
     var e = document.querySelector('#svg-0');
     var blob = svgSaver.getBlob(e);
@@ -160,9 +156,6 @@ describe('svgsaver#getUri', function() {
   if (typeof window.Blob !== 'function') {
     window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
   }
-
-  document.body.innerHTML += '<style>rect { fill: #0000ff; }</style>';
-  document.body.innerHTML += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="stroke:#ff0000;"/></svg>';
 
   it('should convert SVG element', function() {
     var e = document.querySelector('#svg-0');
