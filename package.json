@@ -4,11 +4,12 @@
   "description": "download an SVG element with css styles",
   "main": "lib/svgsaver.js",
   "scripts": {
-    "rollup": "rollup ./src/index.js | babel -o ./lib/svgsaver.js",
-    "browserify": "browserify ./lib/svgsaver.js -o browser.js -s SvgSaver --debug",
+    "rollup": "rollup ./src/index.js -e copy-styles | babel -o ./lib/svgsaver.js",
+    "browserify": "browserify ./lib/svgsaver.js -o browser.js -s SvgSaver",
     "uglify": "uglifyjs browser.js -o browser.min.js",
-    "test": "npm run build && karma start",
-    "build": "npm run rollup && npm run browserify && npm run uglify && npm run jsdoc2md",
+    "test": "npm run compile && karma start",
+    "compile": "npm run rollup && npm run browserify && npm run uglify",
+    "build": "npm run compile && npm run jsdoc2md",
     "lint": "eslint src/*.js",
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
@@ -40,7 +41,9 @@
     "uglifyjs": "^2.4.10",
     "watch": "^0.16.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "copy-styles": "^1.0.0"
+  },
   "directories": {
     "test": "test"
   },

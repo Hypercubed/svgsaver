@@ -11,9 +11,16 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
   - [ ] Document options
 - [ ] Include better whitelists.
   - [ ] Not all styles are inheritable
-  - [ ] Styles can be converted to attributes
+  - [ ] Styles can be converted to attributes (all styles?)
   - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), Normalize styles?
 - [x] image download (png, etc)
   - [ ] Fix IE11 (https://github.com/gabelerner/canvg)
 - [ ] Add CHANGELOG.md
-- [ ] Give in to Browserify?
+- [x] Give in to Browserify
+- [ ] encodeURI file names
+- [ ] Modularize
+  - [x] get computed styles
+  - [x] copy styles
+  - [ ] clone element with styles
+  - [ ] convert styles to attributes
+  - [ ] saveUri/savePNG
