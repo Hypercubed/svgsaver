@@ -45,7 +45,7 @@
     "watch": "^0.16.0"
   },
   "dependencies": {
-    "copy-styles": "^1.0.0"
+    "copy-styles": "^1.1.0"
   },
   "directories": {
     "test": "test"
