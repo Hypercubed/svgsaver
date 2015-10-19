@@ -18,7 +18,10 @@
   },
   "keywords": [
     "svg",
-    "FileSaver"
+    "FileSaver",
+    "dom",
+    "css",
+    "png"
   ],
   "author": "J. Harshbarger",
   "license": "MIT",

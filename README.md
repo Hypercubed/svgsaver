@@ -26,7 +26,6 @@ svgsaver.asSvg(svg);                                // save as SVG
 - [Epicyclic Gearing](http://bl.ocks.org/Hypercubed/db9e99d761f90d87cf43) - d3
 - [Superformula Explorer](http://bl.ocks.org/Hypercubed/58fff7215e53d6565f32) - d3
 - [City Construction Site](http://codepen.io/Hypercubed/pen/OyWadQ) - jQuery and TweenMax
-- [City Construction Site](http://codepen.io/Hypercubed/pen/OyWadQ) - jQuery and TweenMax
 - [Chiasm Boilerplate (with download buttons)](http://bl.ocks.org/Hypercubed/b01a767b41b0e679aade) - Chiasm
 
 ## Acknowledgments
