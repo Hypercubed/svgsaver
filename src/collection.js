@@ -1,4 +1,4 @@
-export var svgStyles = {   // Whitelist of CSS styles and default values
+export const svgStyles = {   // Whitelist of CSS styles and default values
   'alignment-baseline':'auto',
   'baseline-shift':'baseline',
   'clip':'auto',
@@ -63,7 +63,7 @@ export var svgStyles = {   // Whitelist of CSS styles and default values
   'writing-mode':'lr-tb'
 };
 
-export var svgAttrs = [  // white list of attributes
+export const svgAttrs = [  // white list of attributes
   'id', 'xml:base', 'xml:lang', 'xml:space', // Core
   'height', 'result', 'width', 'x', 'y',     // Primitive
   'xlink:href',                              // Xlink attribute

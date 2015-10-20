@@ -10,9 +10,10 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 - [x] Make white lists optional
   - [ ] Document options
 - [ ] Include better whitelists.
-  - [ ] Not all styles are inheritable
+  - [x] Not all styles are inheritable
   - [ ] Styles can be converted to attributes (all styles?)
   - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), Normalize styles?
+- [ ] Clean inheritable styles
 - [x] image download (png, etc)
   - [ ] Fix IE11 (https://github.com/gabelerner/canvg)
 - [ ] Add CHANGELOG.md
