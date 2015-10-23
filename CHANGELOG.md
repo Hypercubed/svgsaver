@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Default is now to copy all inherited styles, regardless of value
 
 --------------------
 

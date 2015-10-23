@@ -85,3 +85,53 @@ export const svgAttrs = [  // white list of attributes
   'points',                                 // Polygons
   'offset'
 ];
+
+// http://www.w3.org/TR/SVG/propidx.html
+// via https://github.com/svg/svgo/blob/master/plugins/_collections.js
+export const inheritableAttrs = [
+  'clip-rule',
+  'color',
+  'color-interpolation',
+  'color-interpolation-filters',
+  'color-profile',
+  'color-rendering',
+  'cursor',
+  'direction',
+  'fill',
+  'fill-opacity',
+  'fill-rule',
+  'font',
+  'font-family',
+  'font-size',
+  'font-size-adjust',
+  'font-stretch',
+  'font-style',
+  'font-variant',
+  'font-weight',
+  'glyph-orientation-horizontal',
+  'glyph-orientation-vertical',
+  'image-rendering',
+  'kerning',
+  'letter-spacing',
+  'marker',
+  'marker-end',
+  'marker-mid',
+  'marker-start',
+  'pointer-events',
+  'shape-rendering',
+  'stroke',
+  'stroke-dasharray',
+  'stroke-dashoffset',
+  'stroke-linecap',
+  'stroke-linejoin',
+  'stroke-miterlimit',
+  'stroke-opacity',
+  'stroke-width',
+  'text-anchor',
+  'text-rendering',
+  'transform',
+  'visibility',
+  'white-space',
+  'word-spacing',
+  'writing-mode'
+];

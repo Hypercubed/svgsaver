@@ -14,7 +14,8 @@
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
     "start": "npm run demo & npm run watch",
-    "jsdoc2md": "jsdoc-parse ./src/svgsaver.js | dmd > API.md"
+    "jsdoc2md": "jsdoc-parse ./src/svgsaver.js | dmd > API.md",
+    "version": "chg release -y && git add -A CHANGELOG.md"
   },
   "keywords": [
     "svg",

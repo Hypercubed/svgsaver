@@ -1,62 +1,93 @@
 
-var html = '<style>rect { stroke-opacity: 0.75; fill-opacity: 0.25; fill: #0000ff; }</style>';
-html += '<svg id="svg-0"><rect ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5; stroke:#ff0000;"/></svg>';
+var html = '<style>';
+html += 'rect { stroke-opacity: 0.75; fill-opacity: 1; fill: #0000ff; stroke:none; }';
+html += 'g { fill-opacity: 0.75 }';
+html += '</style>';
+html += '<svg id="svg-0">';
+html += '<g>';
+html += '<rect id="rect-0" ng-scope x="10" y="10" height="100" width="100" style="opacity: 0.5; stroke:#ff0000;"/>';
+html += '</g>';
+html += '</svg>';
 
-document.body.innerHTML += html;
+function resetOriginal(html) {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  document.body.appendChild(div);
+  return div.querySelector('svg');
+}
+
+function toDom(html) {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  return div.querySelector('svg');
+}
 
 describe('svgsaver#getHTML', function() {
 
   var svgSaver = new SvgSaver();
+  var originalSvg, newSvg, svgHtml;
+
+  beforeEach(function() {
+    originalSvg = resetOriginal(html);
+    svgHtml = svgSaver.getHTML(originalSvg);
+    newSvgDom = toDom(svgHtml);
+  });
 
   it('should convert SVG element', function() {
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    expect(html).toContain('<svg');
+    expect(svgHtml.slice(0, 4)).toEqual('<svg');
   });
 
 	it('should convert SVG element with children', function() {
-    var e = document.querySelector('#svg-0');
-		var html = svgSaver.getHTML(e);
-    expect(html).toContain('<rect');
+    expect(svgHtml).toContain('<rect');
 	});
 
   it('should convert SVG element with styles', function() {
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    expect(html).toContain('opacity: 0.5;');
+    var rect = newSvgDom.querySelector('#rect-0');
+    expect(rect.style.opacity).toEqual('0.5');
   });
 
   it('should convert SVG element with CSS defined styles', function() {
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    expect(html).toContain('stroke-opacity: 0.75;');
+    var rect = newSvgDom.querySelector('#rect-0');
+    expect(rect.style['stroke-opacity']).toContain('0.75');
   });
 
   it('should convert SVG element removing unneeded attrs', function() {
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    expect(html).not.toContain('ng-scope');
+    var rect = newSvgDom.querySelector('#rect-0');
+    expect(rect.attributes).not.toContain('ng-scope');
+  });
+
+  it('should copy inheritable styles even if default', function() {
+    var rect = newSvgDom.querySelector('#rect-0');
+    expect(rect.style['fill-opacity']).toEqual('1');
   });
 
 });
 
 describe('svgsaver options', function() {
 
+  var originalSvg;
+
+  beforeEach(function() {
+    originalSvg = resetOriginal(html);
+  });
+
   it('should remove all attributes and styles when false', function() {
 
-    var svgSaver = new SvgSaver({
+    svgSaver = new SvgSaver({
       styles: false,
       attrs: false
     });
 
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    //console.log('clean',html);
-    expect(html).not.toContain('opacity: 0.5;');
-    expect(html).not.toContain('stroke-opacity: 0.75;');
-    expect(html).not.toContain('ng-scope');
-    expect(html).not.toContain('x="10"');
-    expect(html).not.toContain('y="10"');
+    var svgHtml = svgSaver.getHTML(originalSvg);
+    var newSvgDom = toDom(svgHtml);
+    var rect = newSvgDom.querySelector('rect');
+    var g = newSvgDom.querySelector('g');
+
+    expect(rect.style['opacity']).toEqual('');
+    expect(rect.style['stroke-opacity']).toEqual('');
+    expect(rect.hasAttribute('ng-scope')).toEqual(false);
+    expect(rect.hasAttribute('x')).toEqual(false);
+    expect(rect.hasAttribute('y')).toEqual(false);
   });
 
   it('should remove all attributes and styles when empty', function() {
@@ -66,14 +97,15 @@ describe('svgsaver options', function() {
       attrs: []
     });
 
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    //console.log('clean',html);
-    expect(html).not.toContain('opacity: 0.5;');
-    expect(html).not.toContain('stroke-opacity: 0.75;');
-    expect(html).not.toContain('ng-scope');
-    expect(html).not.toContain('x="10"');
-    expect(html).not.toContain('y="10"');
+    var svgHtml = svgSaver.getHTML(originalSvg);
+    var newSvgDom = toDom(svgHtml);
+    var rect = newSvgDom.querySelector('rect');
+
+    expect(rect.style['opacity']).toEqual('');
+    expect(rect.style['stroke-opacity']).toEqual('');
+    expect(rect.hasAttribute('ng-scope')).toEqual(false);
+    expect(rect.hasAttribute('x')).toEqual(false);
+    expect(rect.hasAttribute('y')).toEqual(false);
   });
 
   it('should retain inline styles and CSS styles in whitelist', function() {
@@ -82,17 +114,18 @@ describe('svgsaver options', function() {
       styles: {
         'stroke-opacity':'1'
       },
-      attrs: ['style']
+      attrs: ['id','style']
     });
 
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    //console.log('min',html);
-    expect(html).toContain('opacity: 0.5;');
-    expect(html).toContain('stroke-opacity: 0.75;');
-    expect(html).not.toContain('ng-scope');
-    expect(html).not.toContain('x="10"');
-    expect(html).not.toContain('y="10"');
+    var svgHtml = svgSaver.getHTML(originalSvg);
+    var newSvgDom = toDom(svgHtml);
+    var rect = newSvgDom.querySelector('#rect-0');
+
+    expect(rect.style['opacity']).toEqual('0.5');
+    expect(rect.style['stroke-opacity']).toEqual('0.75');
+    expect(rect.hasAttribute('ng-scope')).toEqual(false);
+    expect(rect.hasAttribute('x')).toEqual(false);
+    expect(rect.hasAttribute('y')).toEqual(false);
   });
 
   it('should retain inline styles and attributes in whitelist', function() {
@@ -101,17 +134,18 @@ describe('svgsaver options', function() {
       styles: {
         'stroke-opacity':'1'
       },
-      attrs: ['style', 'ng-scope','x']
+      attrs: ['id', 'style', 'ng-scope','x']
     });
 
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    //console.log('min',html);
-    expect(html).toContain('opacity: 0.5;');
-    expect(html).toContain('stroke-opacity: 0.75;');
-    expect(html).toContain('ng-scope');
-    expect(html).toContain('x="10"');
-    expect(html).not.toContain('y="10"');
+    var svgHtml = svgSaver.getHTML(originalSvg);
+    var newSvgDom = toDom(svgHtml);
+    var rect = newSvgDom.querySelector('#rect-0');
+
+    expect(rect.style['opacity']).toEqual('0.5');
+    expect(rect.style['stroke-opacity']).toEqual('0.75');
+    expect(rect.hasAttribute('ng-scope'));
+    expect(rect.getAttribute('x')).toEqual('10');
+    expect(rect.hasAttribute('y')).toEqual(false);
   });
 
   it('should copy all attributes and styles when true', function() {
@@ -121,14 +155,15 @@ describe('svgsaver options', function() {
       styles: true  // copy all styles
     });
 
-    var e = document.querySelector('#svg-0');
-    var html = svgSaver.getHTML(e);
-    //console.log('all',html);
-    expect(html).toContain('opacity: 0.5;');
-    expect(html).toContain('stroke-opacity: 0.75;');
-    expect(html).toContain('ng-scope');
-    expect(html).toContain('x="10"');
-    expect(html).toContain('y="10"');
+    var svgHtml = svgSaver.getHTML(originalSvg);
+    var newSvgDom = toDom(svgHtml);
+    var rect = newSvgDom.querySelector('#rect-0');
+
+    expect(rect.style['opacity']).toEqual('0.5');
+    expect(rect.style['stroke-opacity']).toEqual('0.75');
+    expect(rect.hasAttribute('ng-scope'));
+    expect(rect.getAttribute('x')).toEqual('10');
+    expect(rect.getAttribute('y')).toEqual('10');
   });
 
 });
@@ -149,7 +184,7 @@ describe('svgsaver#getBlob', function() {
 
 });
 
-describe('svgsaver#getUri', function() {
+xdescribe('svgsaver#getUri', function() {
 
   var svgSaver = new SvgSaver();
 

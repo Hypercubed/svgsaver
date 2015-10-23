@@ -1,9 +1,16 @@
 /* global saveAs:true */
 
-import {svgAttrs, svgStyles} from './collection';
+import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';
 import {saveUri, savePng} from './saveuri';
 import {isDefined, isFunction} from './utils';
+
+// inheritable styles may be overridden by parent, always copy for now
+inheritableAttrs.forEach(function(k) {
+  if (k in svgStyles) {
+    svgStyles[k] = true;
+  }
+});
 
 export class SvgSaver {
 
