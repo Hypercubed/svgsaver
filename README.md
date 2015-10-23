@@ -7,7 +7,7 @@ download an SVG element as an SVG or PNG file, including CSS defined styles.
 - Download `<svg>` by element object or CSS selectors.
 - Copies SVG element styles as rendered in the browser, including styles defined in CSS stylesheets.
 - Copies only SVG relevant and non-default styles.  [See here](http://www.w3.org/TR/SVG/propidx.html).
-- Available as a ES6 module, CJS, or bundled UMD.
+- Available as an ES6 module, CJS, or bundled UMD.
 - Install using npm, bower, or jspm.
 
 ## Usage
