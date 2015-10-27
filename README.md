@@ -10,21 +10,27 @@ Download an SVG element as an SVG or PNG file, including CSS defined styles.
 - Downlad as SVG of PNG file.
 - Copies SVG element styles as rendered in the browser, including styles defined in CSS style sheets.
 - Copies only SVG relevant and non-default styles.  [See here](http://www.w3.org/TR/SVG/propidx.html).
-- Computed styles are inlined for maximum compatibility.
+- Computed styles are in-lined for maximum compatibility.
 
 ## Install
 
 ### Node
 
+```js
 npm install svgsaver
+```
 
 ### Bower
 
+```js
 bower install svgsaver
+```
 
 ### JSPM
 
+```js
 jspm install svgsaver=npm:svgsaver
+```
 
 ## Usage
 
@@ -51,3 +57,8 @@ Based on previous work on [Hypercubed/angular-downloadsvg-directive](https://git
 
 ## License
 [MIT License](http://en.wikipedia.org/wiki/MIT_License)
+
+[npm-url]: https://npmjs.org/package/svgsaver
+[npm-image]: https://img.shields.io/npm/v/svgsaver.svg?style=flat-square
+
+[download-badge]: http://img.shields.io/npm/dm/svgsaver.svg?style=flat-squar
