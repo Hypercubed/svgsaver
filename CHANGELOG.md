@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Internal change to use latest computed-styles
+_(none)_
 
 --------------------
+
+## 0.3.2 (2015-10-27)
+* Internal change to use latest computed-styles
 
 ## 0.3.1 (2015-10-23)
 * Default is now to copy all inherited styles, regardless of value
