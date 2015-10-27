@@ -7,7 +7,7 @@ Download an SVG element as an SVG or PNG file, including CSS defined styles.
 
 ## Features
 - Download `<svg>` by element object.
-- Downlad as SVG of PNG file.
+- Download as SVG or PNG file.
 - Copies SVG element styles as rendered in the browser, including styles defined in CSS style sheets.
 - Copies only SVG relevant and non-default styles.  [See here](http://www.w3.org/TR/SVG/propidx.html).
 - Computed styles are in-lined for maximum compatibility.
