@@ -10,7 +10,7 @@
     "test": "npm run compile && karma start",
     "compile": "npm run rollup && npm run browserify && npm run uglify",
     "build": "npm run compile && npm run jsdoc2md",
-    "lint": "eslint src/*.js",
+    "lint": "eslint src/ test/",
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
     "start": "npm run demo & npm run watch",
@@ -46,7 +46,7 @@
     "watch": "^0.16.0"
   },
   "dependencies": {
-    "copy-styles": "^1.1.0"
+    "computed-styles": "^1.1.0"
   },
   "directories": {
     "test": "test"

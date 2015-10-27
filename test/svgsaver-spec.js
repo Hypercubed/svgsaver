@@ -1,3 +1,7 @@
+/* global describe beforeEach it xdescribe */
+/* global expect */
+/* global SvgSaver */
+
 
 var html = '<style>';
 html += 'rect { stroke-opacity: 0.75; fill-opacity: 1; fill: #0000ff; stroke:none; }';
@@ -25,7 +29,7 @@ function toDom(html) {
 describe('svgsaver#getHTML', function() {
 
   var svgSaver = new SvgSaver();
-  var originalSvg, newSvg, svgHtml;
+  var originalSvg, svgHtml, newSvgDom;
 
   beforeEach(function() {
     originalSvg = resetOriginal(html);
@@ -37,9 +41,9 @@ describe('svgsaver#getHTML', function() {
     expect(svgHtml.slice(0, 4)).toEqual('<svg');
   });
 
-	it('should convert SVG element with children', function() {
+  it('should convert SVG element with children', function() {
     expect(svgHtml).toContain('<rect');
-	});
+  });
 
   it('should convert SVG element with styles', function() {
     var rect = newSvgDom.querySelector('#rect-0');
@@ -73,7 +77,7 @@ describe('svgsaver options', function() {
 
   it('should remove all attributes and styles when false', function() {
 
-    svgSaver = new SvgSaver({
+    var svgSaver = new SvgSaver({
       styles: false,
       attrs: false
     });
@@ -81,7 +85,6 @@ describe('svgsaver options', function() {
     var svgHtml = svgSaver.getHTML(originalSvg);
     var newSvgDom = toDom(svgHtml);
     var rect = newSvgDom.querySelector('rect');
-    var g = newSvgDom.querySelector('g');
 
     expect(rect.style['opacity']).toEqual('');
     expect(rect.style['stroke-opacity']).toEqual('');

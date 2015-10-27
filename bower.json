@@ -13,7 +13,10 @@
   ],
   "keywords": [
     "svg",
-    "FileSaver"
+    "FileSaver",
+    "dom",
+    "css",
+    "png"
   ],
   "license": "MIT",
   "ignore": [

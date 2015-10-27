@@ -1,5 +1,5 @@
 /* Some utilities for cloning SVGs with inline styles */
-import copyStyles from 'copy-styles';
+import computedStyles from 'computed-styles';
 import {isUndefined} from './utils';
 
 // Removes attributes that are not valid for SVGs
@@ -23,12 +23,12 @@ export function cloneSvg(src, attrs, styles) {
   var clonedSvg = src.cloneNode(true);
   var srcChildren = src.querySelectorAll('*');
 
-  copyStyles(src, clonedSvg, styles);
+  computedStyles(src, clonedSvg.style, styles);
   cleanAttrs(clonedSvg, attrs, styles);
 
   Array.prototype.slice.call(clonedSvg.querySelectorAll('*'))
     .forEach(function( target, index ) {
-      copyStyles(srcChildren[index], target, styles);
+      computedStyles(srcChildren[index], target.style, styles);
       cleanAttrs(target, attrs, styles);
     });
 

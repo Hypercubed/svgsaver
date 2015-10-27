@@ -12,8 +12,9 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
 - [ ] Include better whitelists.
   - [x] Not all styles are inheritable
   - [ ] Styles can be converted to attributes (all styles?)
-  - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000), Normalize styles?
-- [ ] Clean inheritable styles
+  - [ ] Different browsers return different style formats (rgb(0, 0, 0) vs \#000000)
+  - [ ] Normalize and minimizestyles?
+- [ ] Clean redundant inheritable styles
 - [x] image download (png, etc)
   - [ ] Fix IE11 (https://github.com/gabelerner/canvg)
 - [ ] encodeURI file names
@@ -23,5 +24,7 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
   - [ ] clone element with styles
   - [ ] convert styles to attributes
   - [ ] saveUri/savePNG
-- [ ] Use tape instead of mocha,jasmine
+- [ ] Tests
+  - [ ] Use tape instead of mocha and jasmine
   - [ ] JSDOM tests?
+  - [ ] zuul?
