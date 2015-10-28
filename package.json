@@ -11,6 +11,7 @@
     "compile": "npm run rollup && npm run browserify && npm run uglify",
     "build": "npm run compile && npm run jsdoc2md",
     "lint": "eslint src/ test/",
+    "check": "npm run lint -s && dependency-check package.json --entry src",
     "watch": "watch \"npm run build\" src/",
     "demo": "live-server --open=demo --ignore=src",
     "start": "npm run demo & npm run watch",
@@ -29,6 +30,7 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "browserify": "^11.2.0",
+    "dependency-check": "^2.5.1",
     "dmd": "^1.2.0",
     "eslint": "^1.4.3",
     "jasmine-core": "^2.3.4",
@@ -46,7 +48,7 @@
     "watch": "^0.16.0"
   },
   "dependencies": {
-    "computed-styles": "^1.1.0"
+    "computed-styles": "^1.1.2"
   },
   "directories": {
     "test": "test"

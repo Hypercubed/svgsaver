@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Use latest computed-styles, fixes IE11
 
 --------------------
 

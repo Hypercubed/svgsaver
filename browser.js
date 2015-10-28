@@ -143,6 +143,9 @@ function savePng(uri, name) {
 var _isDefined = function _isDefined(a) {
   return typeof a !== 'undefined';
 };
+var _isUndefined = function _isUndefined(a) {
+  return typeof a === 'undefined';
+};
 var isObject = function isObject(a) {
   return a !== null && typeof a === 'object';
 };
@@ -155,6 +158,18 @@ function isNode(val) {
 }
 
 var useComputedStyles = _isDefined(window) && _isDefined(window.getComputedStyle);
+
+// Gets computed styles for an element
+// from https://github.com/jquery/jquery/blob/master/src/css/var/getStyles.js
+function getComputedStyles(node) {
+  if (useComputedStyles) {
+    var view = node.ownerDocument.defaultView;
+    if (!view.opener) view = window;
+    return view.getComputedStyle(node, null);
+  } else {
+    return node.currentStyle || node.style;
+  }
+}
 
 /**
 * Returns a collection of CSS property-value pairs
@@ -174,18 +189,25 @@ function computedStyles(node) {
 
   if (styleList === false) return target;
 
-  if (useComputedStyles) {
-    var computed = node.ownerDocument.defaultView.getComputedStyle(node, null);
-    var keysArray = styleList === true ? computed : Object.keys(styleList);
+  var computed = getComputedStyles(node);
+
+  if (styleList === true) {
+    var keysArray = useComputedStyles ? computed : Object.keys(computed);
   } else {
-    var computed = _isDefined(node.currentStyle) ? node.currentStyle : node.style;
-    var keysArray = styleList === true ? Object.keys(computed) : Object.keys(styleList);
+    var keysArray = Object.keys(styleList);
   }
 
   for (var i = 0, l = keysArray.length; i < l; i++) {
     var key = keysArray[i];
-    var value = useComputedStyles ? computed.getPropertyValue(key) : computed[key];
-    if (styleList === true || styleList[key] === true || value !== styleList[key]) {
+
+    var def = styleList === true || styleList[key];
+    if (def === false || _isUndefined(def)) continue; // copy never
+
+    var value = /* computed.getPropertyValue(key) || */computed[key]; // using getPropertyValue causes error in IE11
+    if (typeof value !== 'string' || value === '') continue; // invalid value
+
+    if (def === true || value !== def) {
+      // styleList === true || styleList[key] === true || styleList[key] !== value
       target[key] = value;
     }
   }

@@ -25,6 +25,5 @@ _\( managed using [todo-md](https://github.com/Hypercubed/todo-md) \)_
   - [ ] convert styles to attributes
   - [ ] saveUri/savePNG
 - [ ] Tests
-  - [ ] Use tape instead of mocha and jasmine
-  - [ ] JSDOM tests?
-  - [ ] zuul?
+  - [ ] Convert tests to tape
+  - [ ] Use zuul
