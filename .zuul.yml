@@ -1,0 +1,19 @@
+ui: tape
+browsers:
+  - name: android
+    version: [oldest, latest]
+  - name: chrome
+    version: [oldest, latest]
+  - name: firefox
+    version: [oldest, latest]
+  - name: ie
+    version: oldest..latest
+  - name: iphone
+    version: [oldest, latest]
+  - name: opera
+    version: oldest..latest
+  - name: safari
+    version: oldest..latest
+browserify:
+  - transform:
+      name: babelify
