@@ -1,4 +1,4 @@
-/* global saveAs:true */
+/* global saveAs Blob */
 
 import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';
@@ -6,7 +6,7 @@ import {saveUri, savePng} from './saveuri';
 import {isDefined, isFunction} from './utils';
 
 // inheritable styles may be overridden by parent, always copy for now
-inheritableAttrs.forEach(function(k) {
+inheritableAttrs.forEach(function (k) {
   if (k in svgStyles) {
     svgStyles[k] = true;
   }
@@ -24,7 +24,7 @@ export class SvgSaver {
   * var svg = document.querySelector('#mysvg');         // find the SVG element
   * svgsaver.asSvg(svg);                                // save as SVG
   */
-  constructor({ attrs, styles } = {}) {
+  constructor ({ attrs, styles } = {}) {
     this.attrs = (attrs === undefined) ? svgAttrs : attrs;
     this.styles = (styles === undefined) ? svgStyles : styles;
   }
@@ -36,7 +36,7 @@ export class SvgSaver {
   * @returns {String} SVG text after cleaning
   * @api public
   */
-  getHTML(el) {
+  getHTML (el) {
     const svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -56,7 +56,7 @@ export class SvgSaver {
   * @returns {Blog} SVG as a text/xml Blob
   * @api public
   */
-  getBlob(el) {
+  getBlob (el) {
     const html = this.getHTML(el);
     return new Blob([html], { type: 'text/xml' });
   }
@@ -68,7 +68,7 @@ export class SvgSaver {
   * @returns {String} SVG as image/svg+xml;base64 URI encoded string
   * @api public
   */
-  getUri(el) {
+  getUri (el) {
     const html = this.getHTML(el);
     if (isDefined(window.btoa)) {
       return 'data:image/svg+xml;base64,' + window.btoa(html);
@@ -84,10 +84,10 @@ export class SvgSaver {
   * @returns {SvgSaver} The SvgSaver instance
   * @api public
   */
-  asSvg(el, filename) {
+  asSvg (el, filename) {
     if (!filename || filename === '') {
       filename = el.getAttribute('title');
-      filename = (filename || 'untitled')+'.svg';
+      filename = (filename || 'untitled') + '.svg';
     }
     if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
@@ -104,10 +104,10 @@ export class SvgSaver {
   * @returns {SvgSaver} The SvgSaver instance
   * @api public
   */
-  asPng(el, filename) {
+  asPng (el, filename) {
     if (!filename || filename === '') {
       filename = el.getAttribute('title');
-      filename = (filename || 'untitled')+'.png';
+      filename = (filename || 'untitled') + '.png';
     }
     return savePng(this.getUri(el), filename);
   }

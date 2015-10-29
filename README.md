@@ -2,8 +2,13 @@
 
 Download an SVG element as an SVG or PNG file, including CSS defined styles.
 
-[![NPM version][npm-image]][npm-url]
-[![Downloads][download-badge]][npm-url]
+[![NPM version][npm-badge]][npm]
+[![Downloads][download-badge]][npm]
+![Downloads][bower-badge]
+
+[![js-semistandard-style][standard-badge]][semistandard]
+[![Codacy Badge][codacy-badge]][Codacy]
+[![License][license-badge]][MIT License]
 
 ## Features
 - Download `<svg>` by element object.
@@ -56,9 +61,17 @@ svgsaver.asSvg(svg);                                // save as SVG
 Based on previous work on [Hypercubed/angular-downloadsvg-directive](https://github.com/Hypercubed/angular-downloadsvg-directive).  Some portions of this code inspired by [raw](https://github.com/densitydesign/raw/blob/master/js/directives.js) and [moagrius/copycss](https://github.com/moagrius/copycss).
 
 ## License
-[MIT License](http://en.wikipedia.org/wiki/MIT_License)
+[MIT License]
 
-[npm-url]: https://npmjs.org/package/svgsaver
-[npm-image]: https://img.shields.io/npm/v/svgsaver.svg?style=flat-square
+[npm]: https://npmjs.org/package/svgsaver
+[bower]: https://npmjs.org/package/svgsaver
+[semistandard]: https://github.com/Flet/semistandard
+[Codacy]: https://www.codacy.com/app/hypercubed/svgsaver
+[MIT License]: http://en.wikipedia.org/wiki/MIT_License
 
-[download-badge]: http://img.shields.io/npm/dm/svgsaver.svg?style=flat-squar
+[npm-badge]: https://img.shields.io/npm/v/svgsaver.svg
+[bower-badge]: https://img.shields.io/bower/v/svgsaver.svg
+[standard-badge]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg
+[download-badge]: http://img.shields.io/npm/dm/svgsaver.svg
+[codacy-badge]: https://api.codacy.com/project/badge/6fe47dae30b34d2da78572b3ea36cfe0
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
