@@ -7,8 +7,9 @@ Download an SVG element as an SVG or PNG file, including CSS defined styles.
 ![Downloads][bower-badge]
 
 [![Build Status][travis-image]][travis-url]
-[![js-semistandard-style][standard-badge]][semistandard]
 [![Codacy Badge][codacy-badge]][Codacy]
+
+[![js-semistandard-style][standard-badge]][semistandard]
 [![License][license-badge]][MIT License]
 
 ## Features
@@ -71,7 +72,7 @@ Based on previous work on [Hypercubed/angular-downloadsvg-directive](https://git
 [MIT License]: http://en.wikipedia.org/wiki/MIT_License
 [travis-url]: https://travis-ci.org/Hypercubed/svgsaver
 
-[travis-image]: https://img.shields.io/travis/Hypercubed/svgsaver
+[travis-image]: https://img.shields.io/travis/Hypercubed/svgsaver.svg
 [npm-badge]: https://img.shields.io/npm/v/svgsaver.svg
 [bower-badge]: https://img.shields.io/bower/v/svgsaver.svg
 [standard-badge]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg
