@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Clean superfluous inheritable styles
+_(none)_
 
 --------------------
+
+## 0.4.0 (2015-11-05)
+* Clean superfluous inheritable styles
 
 ## 0.3.3 (2015-10-28)
 * Use latest computed-styles, fixes IE11
