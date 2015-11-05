@@ -41,7 +41,7 @@ export const svgStyles = {   // Whitelist of CSS styles and default values
   'mask': 'none',
   'opacity': '1',
   'overflow': 'visible',
-  'paint-order': 'normal',
+  'paint-order': 'fill',
   'pointer-events': 'auto',
   'shape-rendering': 'auto',
   'stop-color': 'rgb(0, 0, 0)',

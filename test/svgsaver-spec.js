@@ -5,8 +5,8 @@ import SvgSaver from '../src/';
 
 var html = `
   <style>
-    rect { stroke-opacity: 0.75; fill-opacity: 1; fill: #0000ff; stroke:none; }
-    g { fill-opacity: 0.75 }'
+    rect { stroke-opacity: 0.75; fill-opacity: 1; stroke-width: 1; fill: #0000ff; stroke:none; }
+    g { fill-opacity: 0.75; stroke-width: 1;  }'
   </style>
   <svg id="svg-0">
     <g>
@@ -75,6 +75,15 @@ test('should copy inheritable styles even if default', function (t) {
   beforeEach();
   var rect = newSvgDom.querySelector('#rect-0');
   t.equal(rect.style['fill-opacity'], '1');
+});
+
+test('should copy inheritable styles even if default, unless same as parent', function (t) {
+  t.plan(1);
+
+  beforeEach();
+  var rect = newSvgDom.querySelector('#rect-0');
+  console.log(rect.style['stroke-width'], rect.parentNode.style['stroke-width']);
+  t.equal(rect.style['stroke-width'], '');
 });
 
 test('should remove all attributes and styles when false', function (t) {

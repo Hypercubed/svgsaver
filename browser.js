@@ -52,7 +52,7 @@ var svgStyles = { // Whitelist of CSS styles and default values
   'mask': 'none',
   'opacity': '1',
   'overflow': 'visible',
-  'paint-order': 'normal',
+  'paint-order': 'fill',
   'pointer-events': 'auto',
   'shape-rendering': 'auto',
   'stop-color': 'rgb(0, 0, 0)',
@@ -145,14 +145,14 @@ var _isDefined = function _isDefined(a) {
 var _isUndefined = function _isUndefined(a) {
   return typeof a === 'undefined';
 };
-var isObject = function isObject(a) {
+var _isObject = function _isObject(a) {
   return a !== null && typeof a === 'object';
 };
 
 // from https://github.com/npm-dom/is-dom/blob/master/index.js
 function isNode(val) {
-  if (!isObject(val)) return false;
-  if (_isDefined(window) && isObject(window.Node)) return val instanceof window.Node;
+  if (!_isObject(val)) return false;
+  if (_isDefined(window) && _isObject(window.Node)) return val instanceof window.Node;
   return 'number' == typeof val.nodeType && 'string' == typeof val.nodeName;
 }
 
@@ -232,18 +232,38 @@ function cleanAttrs(el, attrs, styles) {
   });
 }
 
-// Clones an SVGElement, copyies approprate atttributes and styles.
+function cleanStyle(tgt, parentStyles) {
+  if (tgt.style) {
+    inheritableAttrs.forEach(function (key) {
+      if (tgt.style[key] === parentStyles[key]) {
+        tgt.style.removeProperty(key);
+      }
+    });
+  }
+}
+
+function walker(attrs, defaultStyles) {
+  return function walk(src, tgt) {
+    if (!tgt.style) return;
+
+    computedStyles(src, tgt.style, defaultStyles);
+
+    var children = src.childNodes;
+    for (var i = 0; i < children.length; i++) {
+      walk(children[i], tgt.childNodes[i]);
+      cleanStyle(tgt.childNodes[i], tgt.style);
+    }
+
+    if (tgt.attributes) {
+      cleanAttrs(tgt, attrs, defaultStyles);
+    }
+  };
+}
+
+// Clones an SVGElement, copies approprate atttributes and styles.
 function cloneSvg(src, attrs, styles) {
   var clonedSvg = src.cloneNode(true);
-  var srcChildren = src.querySelectorAll('*');
-
-  computedStyles(src, clonedSvg.style, styles);
-  cleanAttrs(clonedSvg, attrs, styles);
-
-  Array.prototype.slice.call(clonedSvg.querySelectorAll('*')).forEach(function (target, index) {
-    computedStyles(srcChildren[index], target.style, styles);
-    cleanAttrs(target, attrs, styles);
-  });
+  walker(attrs, styles)(src, clonedSvg);
 
   return clonedSvg;
 }
