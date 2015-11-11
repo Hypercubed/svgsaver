@@ -1,6 +1,6 @@
 /* Some utilities for cloning SVGs with inline styles */
 import computedStyles from 'computed-styles';
-import {isUndefined, isObject, clone} from './utils';
+import {isUndefined} from './utils';
 import {inheritableAttrs} from './collection';
 
 // Removes attributes that are not valid for SVGs
@@ -20,37 +20,33 @@ function cleanAttrs (el, attrs, styles) {  // attrs === false - remove all, attr
 }
 
 function cleanStyle (tgt, parentStyles) {
-  if (tgt.style) {
-    inheritableAttrs.forEach(function (key) {
-      if (tgt.style[key] === parentStyles[key]) {
-        tgt.style.removeProperty(key);
-      }
-    });
-  }
+  parentStyles = parentStyles || tgt.parentNode.style;
+  inheritableAttrs.forEach(function (key) {
+    if (tgt.style[key] === parentStyles[key]) {
+      tgt.style.removeProperty(key);
+    }
+  });
 }
 
-function walker (attrs, defaultStyles) {
-  return function walk (src, tgt) {
-    if (!tgt.style) return;
-
-    computedStyles(src, tgt.style, defaultStyles);
-
-    const children = src.childNodes;
-    for (var i = 0; i < children.length; i++) {
-      walk(children[i], tgt.childNodes[i]);
-      cleanStyle(tgt.childNodes[i], tgt.style);
-    }
-
-    if (tgt.attributes) {
-      cleanAttrs(tgt, attrs, defaultStyles);
-    }
-  };
+function domWalk (src, tgt, down, up) {
+  down(src, tgt);
+  const children = src.childNodes;
+  for (var i = 0; i < children.length; i++) {
+    domWalk(children[i], tgt.childNodes[i], down, up);
+  }
+  up(src, tgt);
 }
 
 // Clones an SVGElement, copies approprate atttributes and styles.
 export function cloneSvg (src, attrs, styles) {
   const clonedSvg = src.cloneNode(true);
-  walker(attrs, styles)(src, clonedSvg);
+
+  domWalk(src, clonedSvg, (src, tgt) => {
+    if (tgt.style) computedStyles(src, tgt.style, styles);
+  }, (src, tgt) => {
+    if (tgt.style && tgt.parentNode) cleanStyle(tgt);
+    if (tgt.attributes) cleanAttrs(tgt, attrs, styles);
+  });
 
   return clonedSvg;
 }
