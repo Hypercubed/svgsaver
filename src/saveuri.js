@@ -1,4 +1,4 @@
-/* global saveAs Image */
+/* global saveAs, Image */
 
 /* Some simple utilities for saving SVGs, including an alternative to saveAs */
 

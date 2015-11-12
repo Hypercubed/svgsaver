@@ -1,4 +1,4 @@
-/* global saveAs Blob */
+/* global saveAs, Blob */
 
 import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';

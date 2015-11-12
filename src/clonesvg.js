@@ -42,10 +42,10 @@ export function cloneSvg (src, attrs, styles) {
   const clonedSvg = src.cloneNode(true);
 
   domWalk(src, clonedSvg, (src, tgt) => {
-    if (tgt.style) computedStyles(src, tgt.style, styles);
+    if (tgt.style) { computedStyles(src, tgt.style, styles); }
   }, (src, tgt) => {
-    if (tgt.style && tgt.parentNode) cleanStyle(tgt);
-    if (tgt.attributes) cleanAttrs(tgt, attrs, styles);
+    if (tgt.style && tgt.parentNode) { cleanStyle(tgt); }
+    if (tgt.attributes) { cleanAttrs(tgt, attrs, styles); }
   });
 
   return clonedSvg;
