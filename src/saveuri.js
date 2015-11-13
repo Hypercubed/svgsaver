@@ -1,4 +1,4 @@
-/* global saveAs, Image */
+/* global saveAs, Image, MouseEvent */
 
 /* Some simple utilities for saving SVGs, including an alternative to saveAs */
 
@@ -12,7 +12,9 @@ export function saveUri (uri, name) {
     const dl = document.createElement('a');
     dl.setAttribute('href', uri);
     dl.setAttribute('download', name);
-    dl.click();
+    // firefox doesn't support `.click()`...
+    // from https://github.com/sindresorhus/multi-download/blob/gh-pages/index.js
+    dl.dispatchEvent(new MouseEvent('click'));
     return true;
   } else if (typeof window !== 'undefined') {
     window.open(uri, '_blank', '');
