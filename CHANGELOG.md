@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Support Firefox without FileSaver
+_(none)_
 
 --------------------
+
+## 0.5.0 (2015-11-13)
+* Support Firefox without FileSaver
 
 ## 0.4.0 (2015-11-05)
 * Clean superfluous inheritable styles
