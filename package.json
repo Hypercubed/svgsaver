@@ -3,6 +3,7 @@
   "version": "0.5.0",
   "description": "download an SVG element with css styles",
   "main": "lib/svgsaver.js",
+  "jsnext:main": "src/svgsaver.js",
   "scripts": {
     "rollup": "rollup ./src/index.js -e copy-styles | babel -o ./lib/svgsaver.js",
     "browserify": "browserify ./lib/svgsaver.js -o browser.js -s SvgSaver",
@@ -45,7 +46,7 @@
     "tape": "^4.2.2",
     "uglifyjs": "^2.4.10",
     "watch": "^0.16.0",
-    "zuul": "^3.6.0"
+    "zuul": "^3.7.2"
   },
   "dependencies": {
     "computed-styles": "^1.1.2"

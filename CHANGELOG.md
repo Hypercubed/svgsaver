@@ -2,7 +2,9 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* URI encode filenames
+* Flexible element selection
+* Throw error if no SVGs can be found
 
 --------------------
 

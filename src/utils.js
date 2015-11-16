@@ -13,3 +13,10 @@ export function clone (obj) {
   }
   return copy;
 }
+
+// from https://github.com/npm-dom/is-dom/blob/master/index.js
+export function isNode (val) {
+  if (!isObject(val)) return false;
+  if (isDefined(window) && isObject(window.Node)) return val instanceof window.Node;
+  return typeof val.nodeType === 'number' && typeof val.nodeName === 'string';
+}

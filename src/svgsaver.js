@@ -3,7 +3,7 @@
 import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';
 import {saveUri, savePng} from './saveuri';
-import {isDefined, isFunction} from './utils';
+import {isDefined, isFunction, isUndefined, isNode} from './utils';
 
 // inheritable styles may be overridden by parent, always copy for now
 inheritableAttrs.forEach(function (k) {
@@ -37,6 +37,7 @@ export class SvgSaver {
   * @api public
   */
   getHTML (el) {
+    el = getSvg(el);
     const svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -85,10 +86,8 @@ export class SvgSaver {
   * @api public
   */
   asSvg (el, filename) {
-    if (!filename || filename === '') {
-      filename = el.getAttribute('title');
-      filename = (filename || 'untitled') + '.svg';
-    }
+    el = getSvg(el);
+    filename = getFilename(el, filename, 'svg');
     if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
     } else {
@@ -105,13 +104,33 @@ export class SvgSaver {
   * @api public
   */
   asPng (el, filename) {
-    if (!filename || filename === '') {
-      filename = el.getAttribute('title');
-      filename = (filename || 'untitled') + '.png';
-    }
+    el = getSvg(el);
+    filename = getFilename(el, filename, 'png');
     return savePng(this.getUri(el), filename);
   }
 
+}
+
+function getSvg (el) {
+  if (isUndefined(el) || el === '') {
+    el = document.body.querySelector('svg');
+  } else if (typeof el === 'string') {
+    el = document.body.querySelector(el);
+  }
+  if (el && el.tagName !== 'svg') {
+    el = el.querySelector('svg');
+  }
+  if (!isNode(el)) {
+    throw new Error('svgsaver: Can\'t find an svg element');
+  }
+  return el;
+}
+
+function getFilename (el, filename, ext) {
+  if (!filename || filename === '') {
+    filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
+  }
+  return encodeURI(filename);
 }
 
 export default SvgSaver;

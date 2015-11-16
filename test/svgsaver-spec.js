@@ -38,6 +38,43 @@ test('should convert SVG element', (t) => {
   t.equal(svgHtml.slice(0, 4), '<svg');
 });
 
+test('should find first svg in element', (t) => {
+  t.plan(1);
+
+  beforeEach();
+
+  svgHtml = new SvgSaver().getHTML(pg);
+  t.equal(svgHtml.slice(0, 4), '<svg');
+});
+
+test('should find first svg in body', (t) => {
+  t.plan(1);
+
+  beforeEach();
+
+  svgHtml = new SvgSaver().getHTML();
+  t.equal(svgHtml.slice(0, 4), '<svg');
+});
+
+test('should find svg by querySelector', (t) => {
+  t.plan(1);
+
+  beforeEach();
+
+  svgHtml = new SvgSaver().getHTML('#svg-0');
+  t.equal(svgHtml.slice(0, 4), '<svg');
+});
+
+test('should throw if no svg found', (t) => {
+  t.plan(1);
+
+  beforeEach();
+
+  t.throws(function () {
+    new SvgSaver().getHTML('#svg-1');
+  });
+});
+
 test('should convert SVG element with children', function (t) {
   t.plan(1);
 
