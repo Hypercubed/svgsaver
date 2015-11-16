@@ -2,11 +2,14 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
+_(none)_
+
+--------------------
+
+## 0.6.0 (2015-11-16)
 * URI encode filenames
 * Flexible element selection
 * Throw error if no SVGs can be found
-
---------------------
 
 ## 0.5.0 (2015-11-13)
 * Support Firefox without FileSaver
