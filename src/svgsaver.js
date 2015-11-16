@@ -12,6 +12,28 @@ inheritableAttrs.forEach(function (k) {
   }
 });
 
+function getSvg (el) {
+  if (isUndefined(el) || el === '') {
+    el = document.body.querySelector('svg');
+  } else if (typeof el === 'string') {
+    el = document.body.querySelector(el);
+  }
+  if (el && el.tagName !== 'svg') {
+    el = el.querySelector('svg');
+  }
+  if (!isNode(el)) {
+    throw new Error('svgsaver: Can\'t find an svg element');
+  }
+  return el;
+}
+
+function getFilename (el, filename, ext) {
+  if (!filename || filename === '') {
+    filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
+  }
+  return encodeURI(filename);
+}
+
 export class SvgSaver {
 
   /**
@@ -109,28 +131,6 @@ export class SvgSaver {
     return savePng(this.getUri(el), filename);
   }
 
-}
-
-function getSvg (el) {
-  if (isUndefined(el) || el === '') {
-    el = document.body.querySelector('svg');
-  } else if (typeof el === 'string') {
-    el = document.body.querySelector(el);
-  }
-  if (el && el.tagName !== 'svg') {
-    el = el.querySelector('svg');
-  }
-  if (!isNode(el)) {
-    throw new Error('svgsaver: Can\'t find an svg element');
-  }
-  return el;
-}
-
-function getFilename (el, filename, ext) {
-  if (!filename || filename === '') {
-    filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
-  }
-  return encodeURI(filename);
 }
 
 export default SvgSaver;
