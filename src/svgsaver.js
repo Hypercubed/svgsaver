@@ -92,11 +92,12 @@ export class SvgSaver {
   * @api public
   */
   getUri (el) {
-    const html = this.getHTML(el);
+    const html = encodeURIComponent(this.getHTML(el));
     if (isDefined(window.btoa)) {
-      return 'data:image/svg+xml;base64,' + window.btoa(html);
+      // see http://stackoverflow.com/questions/23223718/failed-to-execute-btoa-on-window-the-string-to-be-encoded-contains-characte
+      return 'data:image/svg+xml;base64,' + window.btoa(unescape(html));
     }
-    return 'data:image/svg+xml,' + encodeURIComponent(html);
+    return 'data:image/svg+xml,' + html;
   }
 
   /**

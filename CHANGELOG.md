@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fix #1, The string to be encoded contains characters outside of the Latin1 range.
 
 --------------------
 
