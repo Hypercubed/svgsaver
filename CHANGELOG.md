@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fix #1, The string to be encoded contains characters outside of the Latin1 range.
+_(none)_
 
 --------------------
+
+## 0.6.1 (2015-11-17)
+* Fix #1, The string to be encoded contains characters outside of the Latin1 range.
 
 ## 0.6.0 (2015-11-16)
 * URI encode filenames

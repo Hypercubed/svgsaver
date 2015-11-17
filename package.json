@@ -1,6 +1,6 @@
 {
   "name": "svgsaver",
-  "version": "0.6.0",
+  "version": "0.6.1",
   "description": "download an SVG element with css styles",
   "main": "lib/svgsaver.js",
   "jsnext:main": "src/svgsaver.js",
