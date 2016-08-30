@@ -1,17 +1,19 @@
 <a name="SvgSaver"></a>
+
 ## SvgSaver
 **Kind**: global class  
 **Api**: public  
 
 * [SvgSaver](#SvgSaver)
-  * [new SvgSaver()](#new_SvgSaver_new)
-  * [.getHTML(el)](#SvgSaver+getHTML) ⇒ <code>String</code>
-  * [.getBlob(el)](#SvgSaver+getBlob) ⇒ <code>Blog</code>
-  * [.getUri(el)](#SvgSaver+getUri) ⇒ <code>String</code>
-  * [.asSvg(el, [filename])](#SvgSaver+asSvg) ⇒ <code>[SvgSaver](#SvgSaver)</code>
-  * [.asPng(el, [filename])](#SvgSaver+asPng) ⇒ <code>[SvgSaver](#SvgSaver)</code>
+    * [new SvgSaver()](#new_SvgSaver_new)
+    * [.getHTML(el)](#SvgSaver+getHTML) ⇒ <code>String</code>
+    * [.getBlob(el)](#SvgSaver+getBlob) ⇒ <code>Blog</code>
+    * [.getUri(el)](#SvgSaver+getUri) ⇒ <code>String</code>
+    * [.asSvg(el, [filename])](#SvgSaver+asSvg) ⇒ <code>[SvgSaver](#SvgSaver)</code>
+    * [.asPng(el, [filename])](#SvgSaver+asPng) ⇒ <code>[SvgSaver](#SvgSaver)</code>
 
 <a name="new_SvgSaver_new"></a>
+
 ### new SvgSaver()
 SvgSaver constructor.
 
@@ -22,6 +24,7 @@ var svg = document.querySelector('#mysvg');         // find the SVG element
 svgsaver.asSvg(svg);                                // save as SVG
 ```
 <a name="SvgSaver+getHTML"></a>
+
 ### svgSaver.getHTML(el) ⇒ <code>String</code>
 Return the SVG HTML text after cleaning
 
@@ -34,6 +37,7 @@ Return the SVG HTML text after cleaning
 | el | <code>SVGElement</code> | The element to copy. |
 
 <a name="SvgSaver+getBlob"></a>
+
 ### svgSaver.getBlob(el) ⇒ <code>Blog</code>
 Return the SVG, after cleaning, as a text/xml Blob
 
@@ -46,6 +50,7 @@ Return the SVG, after cleaning, as a text/xml Blob
 | el | <code>SVGElement</code> | The element to copy. |
 
 <a name="SvgSaver+getUri"></a>
+
 ### svgSaver.getUri(el) ⇒ <code>String</code>
 Return the SVG, after cleaning, as a image/svg+xml;base64 URI encoded string
 
@@ -58,6 +63,7 @@ Return the SVG, after cleaning, as a image/svg+xml;base64 URI encoded string
 | el | <code>SVGElement</code> | The element to copy. |
 
 <a name="SvgSaver+asSvg"></a>
+
 ### svgSaver.asSvg(el, [filename]) ⇒ <code>[SvgSaver](#SvgSaver)</code>
 Saves the SVG as a SVG file using method compatible with the browser
 
@@ -71,6 +77,7 @@ Saves the SVG as a SVG file using method compatible with the browser
 | [filename] | <code>string</code> | The filename to save, defaults to the SVG title or 'untitled.svg' |
 
 <a name="SvgSaver+asPng"></a>
+
 ### svgSaver.asPng(el, [filename]) ⇒ <code>[SvgSaver](#SvgSaver)</code>
 Saves the SVG as a PNG file using method compatible with the browser
 

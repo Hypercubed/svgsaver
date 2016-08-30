@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Added fast mode, skips style copy
 
 --------------------
 

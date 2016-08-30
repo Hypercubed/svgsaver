@@ -7,7 +7,13 @@ Object.defineProperty(exports, '__esModule', {
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+var _computedStyles = require('computed-styles');
+
+var _computedStyles2 = _interopRequireDefault(_computedStyles);
 
 var svgStyles = { // Whitelist of CSS styles and default values
   'alignment-baseline': 'auto',
@@ -113,123 +119,7 @@ function isNode(val) {
   return typeof val.nodeType === 'number' && typeof val.nodeName === 'string';
 }
 
-// detection
-var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
-
-function saveUri(uri, name) {
-  if (DownloadAttributeSupport) {
-    var dl = document.createElement('a');
-    dl.setAttribute('href', uri);
-    dl.setAttribute('download', name);
-    // firefox doesn't support `.click()`...
-    // from https://github.com/sindresorhus/multi-download/blob/gh-pages/index.js
-    dl.dispatchEvent(new MouseEvent('click'));
-    return true;
-  } else if (typeof window !== 'undefined') {
-    window.open(uri, '_blank', '');
-    return true;
-  }
-
-  return false;
-}
-
-function savePng(uri, name) {
-  var canvas = document.createElement('canvas');
-  var context = canvas.getContext('2d');
-
-  var image = new Image();
-  image.onload = function () {
-    canvas.width = image.width;
-    canvas.height = image.height;
-    context.drawImage(image, 0, 0);
-
-    if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
-      canvas.toBlob(function (blob) {
-        saveAs(blob, name);
-      });
-    } else {
-      saveUri(canvas.toDataURL('image/png'), name);
-    }
-  };
-  image.src = uri;
-  return true;
-}
-
-var _isDefined = function _isDefined(a) {
-  return typeof a !== 'undefined';
-};
-var _isUndefined = function _isUndefined(a) {
-  return typeof a === 'undefined';
-};
-var _isObject = function _isObject(a) {
-  return a !== null && typeof a === 'object';
-};
-
-// from https://github.com/npm-dom/is-dom/blob/master/index.js
-function _isNode(val) {
-  if (!_isObject(val)) return false;
-  if (_isDefined(window) && _isObject(window.Node)) return val instanceof window.Node;
-  return 'number' == typeof val.nodeType && 'string' == typeof val.nodeName;
-}
-
-var useComputedStyles = _isDefined(window) && _isDefined(window.getComputedStyle);
-
-// Gets computed styles for an element
-// from https://github.com/jquery/jquery/blob/master/src/css/var/getStyles.js
-function getComputedStyles(node) {
-  if (useComputedStyles) {
-    var view = node.ownerDocument.defaultView;
-    if (!view.opener) view = window;
-    return view.getComputedStyle(node, null);
-  } else {
-    return node.currentStyle || node.style;
-  }
-}
-
-/**
-* Returns a collection of CSS property-value pairs
-* @param  {Element} node A DOM element to copy styles from
-* @param  {Object} [target] An optional object to copy styles to
-* @param {(Object|Boolean)} [default=true] A collection of CSS property-value pairs, false: copy none, true: copy all
-* @return {object} collection of CSS property-value pairs
-* @api public
-*/
-function computedStyles(node) {
-  var target = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
-  var styleList = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
-
-  if (!_isNode(node)) {
-    throw new Error('parameter 1 is not of type \'Element\'');
-  }
-
-  if (styleList === false) return target;
-
-  var computed = getComputedStyles(node);
-
-  if (styleList === true) {
-    var keysArray = useComputedStyles ? computed : Object.keys(computed);
-  } else {
-    var keysArray = Object.keys(styleList);
-  }
-
-  for (var i = 0, l = keysArray.length; i < l; i++) {
-    var key = keysArray[i];
-
-    var def = styleList === true || styleList[key];
-    if (def === false || _isUndefined(def)) continue; // copy never
-
-    var value = /* computed.getPropertyValue(key) || */computed[key]; // using getPropertyValue causes error in IE11
-    if (typeof value !== 'string' || value === '') continue; // invalid value
-
-    if (def === true || value !== def) {
-      // styleList === true || styleList[key] === true || styleList[key] !== value
-      target[key] = value;
-    }
-  }
-
-  return target;
-}
-
+/* Some utilities for cloning SVGs with inline styles */
 // Removes attributes that are not valid for SVGs
 function cleanAttrs(el, attrs, styles) {
   // attrs === false - remove all, attrs === true - allow all
@@ -272,7 +162,7 @@ function cloneSvg(src, attrs, styles) {
 
   domWalk(src, clonedSvg, function (src, tgt) {
     if (tgt.style) {
-      computedStyles(src, tgt.style, styles);
+      (0, _computedStyles2['default'])(src, tgt.style, styles);
     }
   }, function (src, tgt) {
     if (tgt.style && tgt.parentNode) {
@@ -285,6 +175,54 @@ function cloneSvg(src, attrs, styles) {
 
   return clonedSvg;
 }
+
+/* global saveAs, Image, MouseEvent */
+
+/* Some simple utilities for saving SVGs, including an alternative to saveAs */
+
+// detection
+var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
+
+function saveUri(uri, name) {
+  if (DownloadAttributeSupport) {
+    var dl = document.createElement('a');
+    dl.setAttribute('href', uri);
+    dl.setAttribute('download', name);
+    // firefox doesn't support `.click()`...
+    // from https://github.com/sindresorhus/multi-download/blob/gh-pages/index.js
+    dl.dispatchEvent(new MouseEvent('click'));
+    return true;
+  } else if (typeof window !== 'undefined') {
+    window.open(uri, '_blank', '');
+    return true;
+  }
+
+  return false;
+}
+
+function savePng(uri, name) {
+  var canvas = document.createElement('canvas');
+  var context = canvas.getContext('2d');
+
+  var image = new Image();
+  image.onload = function () {
+    canvas.width = image.width;
+    canvas.height = image.height;
+    context.drawImage(image, 0, 0);
+
+    if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
+      canvas.toBlob(function (blob) {
+        return saveAs(blob, name);
+      });
+    } else {
+      saveUri(canvas.toDataURL('image/png'), name);
+    }
+  };
+  image.src = uri;
+  return true;
+}
+
+/* global saveAs, Blob */
 
 // inheritable styles may be overridden by parent, always copy for now
 inheritableAttrs.forEach(function (k) {
@@ -333,11 +271,13 @@ var SvgSaver = (function () {
 
     var attrs = _ref.attrs;
     var styles = _ref.styles;
+    var fast = _ref.fast;
 
     _classCallCheck(this, SvgSaver);
 
-    this.attrs = attrs === undefined ? svgAttrs : attrs;
-    this.styles = styles === undefined ? svgStyles : styles;
+    this.fast = typeof fast === 'undefined' ? false : fast;
+    this.attrs = typeof attrs === 'undefined' ? svgAttrs : attrs;
+    this.styles = typeof styles === 'undefined' ? svgStyles : styles;
   }
 
   /**
@@ -352,7 +292,12 @@ var SvgSaver = (function () {
     key: 'getHTML',
     value: function getHTML(el) {
       el = getSvg(el);
-      var svg = cloneSvg(el, this.attrs, this.styles);
+      var svg = undefined;
+      if (this.fast) {
+        svg = el.cloneNode(true);
+      } else {
+        svg = cloneSvg(el, this.attrs, this.styles);
+      }
 
       svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
       svg.setAttribute('version', 1.1);
@@ -411,9 +356,8 @@ var SvgSaver = (function () {
       filename = getFilename(el, filename, 'svg');
       if (isDefined(window.saveAs) && isFunction(Blob)) {
         return saveAs(this.getBlob(el), filename);
-      } else {
-        return saveUri(this.getUri(el), filename);
       }
+      saveUri(this.getUri(el), filename);
     }
 
     /**
@@ -439,5 +383,74 @@ var SvgSaver = (function () {
 exports['default'] = SvgSaver;
 module.exports = exports['default'];
 
+},{"computed-styles":2}],2:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var isDefined = function isDefined(a) {
+  return typeof a !== 'undefined';
+};
+var isObject = function isObject(a) {
+  return a !== null && typeof a === 'object';
+};
+
+// from https://github.com/npm-dom/is-dom/blob/master/index.js
+function isNode(val) {
+  if (!isObject(val)) return false;
+  if (isDefined(window) && isObject(window.Node)) return val instanceof window.Node;
+  return 'number' == typeof val.nodeType && 'string' == typeof val.nodeName;
+}
+
+var useComputedStyles = isDefined(window) && isDefined(window.getComputedStyle);
+
+/**
+* Returns a collection of CSS property-value pairs
+* @param  {Element} node A DOM element to copy styles from
+* @param  {Object} [target] An optional object to copy styles to
+* @param {(Object|Boolean)} [default=true] A collection of CSS property-value pairs, false: copy none, true: copy all
+* @return {object} collection of CSS property-value pairs
+* @api public
+*/
+function computedStyles(node) {
+  var target = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+  var styleList = arguments.length <= 2 || arguments[2] === undefined ? true : arguments[2];
+
+  if (!isNode(node)) {
+    throw new Error('parameter 1 is not of type \'Element\'');
+  }
+
+  if (styleList === false) return target;
+
+  if (useComputedStyles) {
+    var computed = node.ownerDocument.defaultView.getComputedStyle(node, null);
+    var keysArray = styleList === true ? computed : Object.keys(styleList);
+  } else {
+    var computed = isDefined(node.currentStyle) ? node.currentStyle : node.style;
+    var keysArray = styleList === true ? Object.keys(computed) : Object.keys(styleList);
+  }
+
+  for (var i = 0, l = keysArray.length; i < l; i++) {
+    var key = keysArray[i];
+
+    var def = styleList === true || styleList[key];
+    if (def === false || !isDefined(def)) continue; // copy never
+
+    var value = useComputedStyles ? computed.getPropertyValue(key) : computed[key];
+    if (typeof value !== 'string' || value === '') continue; // invalid value
+
+    if (def === true || value !== def) {
+      // styleList === true || styleList[key] === true || styleList[key] !== value
+      target[key] = value;
+    }
+  }
+
+  return target;
+}
+
+exports['default'] = computedStyles;
+module.exports = exports['default'];
 },{}]},{},[1])(1)
 });

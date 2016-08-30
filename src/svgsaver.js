@@ -6,7 +6,7 @@ import {saveUri, savePng} from './saveuri';
 import {isDefined, isFunction, isUndefined, isNode} from './utils';
 
 // inheritable styles may be overridden by parent, always copy for now
-inheritableAttrs.forEach(function (k) {
+inheritableAttrs.forEach(k => {
   if (k in svgStyles) {
     svgStyles[k] = true;
   }
@@ -46,9 +46,10 @@ export class SvgSaver {
   * var svg = document.querySelector('#mysvg');         // find the SVG element
   * svgsaver.asSvg(svg);                                // save as SVG
   */
-  constructor ({ attrs, styles } = {}) {
-    this.attrs = (attrs === undefined) ? svgAttrs : attrs;
-    this.styles = (styles === undefined) ? svgStyles : styles;
+  constructor ({attrs, styles, fast} = {}) {
+    this.fast = (typeof fast === 'undefined') ? false : fast;
+    this.attrs = (typeof attrs === 'undefined') ? svgAttrs : attrs;
+    this.styles = (typeof styles === 'undefined') ? svgStyles : styles;
   }
 
   /**
@@ -60,7 +61,12 @@ export class SvgSaver {
   */
   getHTML (el) {
     el = getSvg(el);
-    const svg = cloneSvg(el, this.attrs, this.styles);
+    let svg;
+    if (this.fast) {
+      svg = el.cloneNode(true);
+    } else {
+      svg = cloneSvg(el, this.attrs, this.styles);
+    }
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
     svg.setAttribute('version', 1.1);
@@ -81,7 +87,7 @@ export class SvgSaver {
   */
   getBlob (el) {
     const html = this.getHTML(el);
-    return new Blob([html], { type: 'text/xml' });
+    return new Blob([html], {type: 'text/xml'});
   }
 
   /**
@@ -113,9 +119,8 @@ export class SvgSaver {
     filename = getFilename(el, filename, 'svg');
     if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
-    } else {
-      return saveUri(this.getUri(el), filename);
     }
+    saveUri(this.getUri(el), filename);
   }
 
   /**

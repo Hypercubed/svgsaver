@@ -11,7 +11,7 @@
     "test": "npm run zuul:phantom",
     "compile": "npm run rollup && npm run browserify && npm run uglify",
     "build": "npm run compile && npm run jsdoc2md",
-    "lint": "semistandard test/*.js src/*.js",
+    "lint": "xo ./src ./test",
     "check": "npm run lint -s && dependency-check package.json --entry src",
     "watch": "watch \"npm run build\" src/",
     "watch:test": "watch \"npm test\" src/ test/",
@@ -34,19 +34,19 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "babelify": "^6.4.0",
-    "browserify": "^11.2.0",
+    "browserify": "^13.1.0",
     "dependency-check": "^2.5.1",
     "dmd": "^1.2.0",
     "jsdoc-parse": "^1.1.0",
-    "live-server": "^0.8.1",
-    "phantomjs": "^1.9.18",
-    "rollup": "^0.16.4",
-    "semistandard": "^7.0.2",
+    "live-server": "^1.1.0",
+    "phantomjs-prebuilt": "^2.1.12",
+    "rollup": "^0.34.10",
     "tap-spec": "^4.1.0",
     "tape": "^4.2.2",
     "uglifyjs": "^2.4.10",
-    "watch": "^0.16.0",
-    "zuul": "^3.7.2"
+    "watch": "^0.19.2",
+    "xo": "^0.16.0",
+    "zuul": "^3.11.0"
   },
   "dependencies": {
     "computed-styles": "^1.1.2"
@@ -61,5 +61,29 @@
   "bugs": {
     "url": "https://github.com/Hypercubed/svgsaver/issues"
   },
-  "homepage": "https://github.com/Hypercubed/svgsaver#readme"
+  "homepage": "https://github.com/Hypercubed/svgsaver#readme",
+  "xo": {
+    "semicolon": true,
+    "esnext": true,
+    "space": 2,
+    "envs": [
+      "node",
+      "browser"
+    ],
+    "plugins": [],
+    "rules": {
+      "space-before-function-paren": [
+        2,
+        {
+          "anonymous": "always",
+          "named": "always"
+        }
+      ],
+      "ava/no-skip-test": 0,
+      "ava/no-ignored-test-files": 0,
+      "ava/test-ended": 0,
+      "ava/use-t-well": 0,
+      "ava/no-unknown-modifiers": 0
+    }
+  }
 }

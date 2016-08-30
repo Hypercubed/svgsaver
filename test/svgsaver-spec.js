@@ -3,7 +3,7 @@
 import test from 'tape';
 import SvgSaver from '../src/';
 
-var html = `
+const html = `
   <style>
     rect { stroke-opacity: 0.75; fill-opacity: 1; stroke-width: 1; fill: #0000ff; stroke:none; }
     g { fill-opacity: 0.75; stroke-width: 1;  }'
@@ -22,7 +22,9 @@ function toDom (html) {
   return pg.querySelector('svg');
 }
 
-var originalSvg, svgHtml, newSvgDom;
+let originalSvg;
+let svgHtml;
+let newSvgDom;
 
 function beforeEach (svgSaver) {
   svgSaver = svgSaver || new SvgSaver();
@@ -31,14 +33,14 @@ function beforeEach (svgSaver) {
   newSvgDom = toDom(svgHtml);
 }
 
-test('should convert SVG element', (t) => {
+test('should convert SVG element', t => {
   t.plan(1);
 
   beforeEach();
   t.equal(svgHtml.slice(0, 4), '<svg');
 });
 
-test('should find first svg in element', (t) => {
+test('should find first svg in element', t => {
   t.plan(1);
 
   beforeEach();
@@ -47,7 +49,7 @@ test('should find first svg in element', (t) => {
   t.equal(svgHtml.slice(0, 4), '<svg');
 });
 
-test('should find first svg in body', (t) => {
+test('should find first svg in body', t => {
   t.plan(1);
 
   beforeEach();
@@ -56,7 +58,7 @@ test('should find first svg in body', (t) => {
   t.equal(svgHtml.slice(0, 4), '<svg');
 });
 
-test('should find svg by querySelector', (t) => {
+test('should find svg by querySelector', t => {
   t.plan(1);
 
   beforeEach();
@@ -65,104 +67,104 @@ test('should find svg by querySelector', (t) => {
   t.equal(svgHtml.slice(0, 4), '<svg');
 });
 
-test('should throw if no svg found', (t) => {
+test('should throw if no svg found', t => {
   t.plan(1);
 
   beforeEach();
 
-  t.throws(function () {
+  t.throws(() => {
     new SvgSaver().getHTML('#svg-1');
   });
 });
 
-test('should convert SVG element with children', function (t) {
+test('should convert SVG element with children', t => {
   t.plan(1);
 
   beforeEach();
   t.notEqual(svgHtml.indexOf('<rect'), -1);
 });
 
-test('should convert SVG element with styles', function (t) {
+test('should convert SVG element with styles', t => {
   t.plan(1);
 
   beforeEach();
-  var rect = newSvgDom.querySelector('#rect-0');
+  const rect = newSvgDom.querySelector('#rect-0');
   t.equal(rect.style.opacity, '0.5');
 });
 
-test('should convert SVG element with CSS defined styles', function (t) {
+test('should convert SVG element with CSS defined styles', t => {
   t.plan(1);
 
   beforeEach();
-  var rect = newSvgDom.querySelector('#rect-0');
+  const rect = newSvgDom.querySelector('#rect-0');
   t.equal(rect.style['stroke-opacity'], '0.75');
 });
 
-test('should convert SVG element removing unneeded attrs', function (t) {
+test('should convert SVG element removing unneeded attrs', t => {
   t.plan(1);
 
   beforeEach();
-  var rect = newSvgDom.querySelector('#rect-0');
+  const rect = newSvgDom.querySelector('#rect-0');
   t.equal(rect.attributes['ng-scope'], undefined);
 });
 
-test('should copy inheritable styles even if default', function (t) {
+test('should copy inheritable styles even if default', t => {
   t.plan(1);
 
   beforeEach();
-  var rect = newSvgDom.querySelector('#rect-0');
+  const rect = newSvgDom.querySelector('#rect-0');
   t.equal(rect.style['fill-opacity'], '1');
 });
 
-test('should copy inheritable styles even if default, unless same as parent', function (t) {
+test('should copy inheritable styles even if default, unless same as parent', t => {
   t.plan(1);
 
   beforeEach();
-  var rect = newSvgDom.querySelector('#rect-0');
+  const rect = newSvgDom.querySelector('#rect-0');
   console.log(rect.style['stroke-width'], rect.parentNode.style['stroke-width']);
   t.equal(rect.style['stroke-width'], '');
 });
 
-test('should remove all attributes and styles when false', function (t) {
+test('should remove all attributes and styles when false', t => {
   t.plan(5);
 
-  var svgSaver = new SvgSaver({
+  const svgSaver = new SvgSaver({
     styles: false,
     attrs: false
   });
 
   beforeEach(svgSaver);
-  var rect = newSvgDom.querySelector('rect');
+  const rect = newSvgDom.querySelector('rect');
 
-  t.equal(rect.style['opacity'], '');
+  t.equal(rect.style.opacity, '');
   t.equal(rect.style['stroke-opacity'], '');
   t.equal(rect.hasAttribute('ng-scope'), false);
   t.equal(rect.hasAttribute('x'), false);
   t.equal(rect.hasAttribute('y'), false);
 });
 
-test('should remove all attributes and styles when empty', function (t) {
+test('should remove all attributes and styles when empty', t => {
   t.plan(5);
 
-  var svgSaver = new SvgSaver({
+  const svgSaver = new SvgSaver({
     styles: {},
     attrs: []
   });
 
   beforeEach(svgSaver);
-  var rect = newSvgDom.querySelector('rect');
+  const rect = newSvgDom.querySelector('rect');
 
-  t.equal(rect.style['opacity'], '');
+  t.equal(rect.style.opacity, '');
   t.equal(rect.style['stroke-opacity'], '');
   t.equal(rect.hasAttribute('ng-scope'), false);
   t.equal(rect.hasAttribute('x'), false);
   t.equal(rect.hasAttribute('y'), false);
 });
 
-test('should retain inline styles and CSS styles in whitelist', function (t) {
+test('should retain inline styles and CSS styles in whitelist', t => {
   t.plan(5);
 
-  var svgSaver = new SvgSaver({
+  const svgSaver = new SvgSaver({
     styles: {
       'stroke-opacity': '1'
     },
@@ -170,19 +172,19 @@ test('should retain inline styles and CSS styles in whitelist', function (t) {
   });
 
   beforeEach(svgSaver);
-  var rect = newSvgDom.querySelector('rect');
+  const rect = newSvgDom.querySelector('rect');
 
-  t.equal(rect.style['opacity'], '0.5');
+  t.equal(rect.style.opacity, '0.5');
   t.equal(rect.style['stroke-opacity'], '0.75');
   t.equal(rect.hasAttribute('ng-scope'), false);
   t.equal(rect.hasAttribute('x'), false);
   t.equal(rect.hasAttribute('y'), false);
 });
 
-test('should retain inline styles and attributes in whitelist', function (t) {
+test('should retain inline styles and attributes in whitelist', t => {
   t.plan(5);
 
-  var svgSaver = new SvgSaver({
+  const svgSaver = new SvgSaver({
     styles: {
       'stroke-opacity': '1'
     },
@@ -190,79 +192,95 @@ test('should retain inline styles and attributes in whitelist', function (t) {
   });
 
   beforeEach(svgSaver);
-  var rect = newSvgDom.querySelector('rect');
+  const rect = newSvgDom.querySelector('rect');
 
-  t.equal(rect.style['opacity'], '0.5');
+  t.equal(rect.style.opacity, '0.5');
   t.equal(rect.style['stroke-opacity'], '0.75');
   t.ok(rect.hasAttribute('ng-scope'));
   t.equal(rect.getAttribute('x'), '10');
   t.equal(rect.hasAttribute('y'), false);
 });
 
-test('should copy all attributes and styles when true', function (t) {
+test('should copy all attributes and styles when true', t => {
   t.plan(5);
 
-  var svgSaver = new SvgSaver({
+  const svgSaver = new SvgSaver({
     attrs: true,  // copy all attributes
     styles: true  // copy all styles
   });
 
   beforeEach(svgSaver);
-  var rect = newSvgDom.querySelector('rect');
+  const rect = newSvgDom.querySelector('rect');
 
-  t.equal(rect.style['opacity'], '0.5');
+  t.equal(rect.style.opacity, '0.5');
   t.equal(rect.style['stroke-opacity'], '0.75');
   t.ok(rect.hasAttribute('ng-scope'));
   t.equal(rect.getAttribute('x'), '10');
   t.equal(rect.getAttribute('y'), '10');
 });
 
-test('should convert SVG element to Blob', function (t) {
+test('should convert SVG element to Blob', t => {
   t.plan(1);
 
-  var svgSaver = new SvgSaver();
+  const svgSaver = new SvgSaver();
   toDom(html);
 
   if (typeof window.Blob !== 'function') {
     window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
   }
 
-  var e = document.querySelector('#svg-0');
-  var blob = svgSaver.getBlob(e);
+  const e = document.querySelector('#svg-0');
+  const blob = svgSaver.getBlob(e);
   t.ok(blob instanceof Blob);
 });
 
-test('should convert SVG element to URI', function (t) {
+test('should convert SVG element to URI', t => {
   t.plan(1);
 
-  var svgSaver = new SvgSaver();
+  const svgSaver = new SvgSaver();
   toDom(html);
 
-  var e = document.querySelector('#svg-0');
-  var uri = svgSaver.getUri(e);
+  const e = document.querySelector('#svg-0');
+  const uri = svgSaver.getUri(e);
   t.notEqual(uri.indexOf('data:image/svg+xml;base64'), -1);
 });
 
-test('should save SVG', function (t) {
+test('should save SVG', t => {
   t.plan(1);
 
-  var svgSaver = new SvgSaver();
+  const svgSaver = new SvgSaver();
   toDom(html);
 
-  var e = document.querySelector('#svg-0');
-  t.doesNotThrow(function () {
+  const e = document.querySelector('#svg-0');
+  t.doesNotThrow(() => {
     svgSaver.asSvg(e);
   });
 });
 
-test('should save PNG', function (t) {
+test('should save PNG', t => {
   t.plan(1);
 
-  var svgSaver = new SvgSaver();
+  const svgSaver = new SvgSaver();
   toDom(html);
 
-  var e = document.querySelector('#svg-0');
-  t.doesNotThrow(function () {
+  const e = document.querySelector('#svg-0');
+  t.doesNotThrow(() => {
     svgSaver.asPng(e);
   });
+});
+
+test('should convert fast mode', t => {
+  t.plan(6);
+
+  const svgSaver = new SvgSaver({fast: true});
+
+  beforeEach(svgSaver);
+  const rect = newSvgDom.querySelector('rect');
+
+  t.equal(rect.style.opacity, '0.5');
+  t.equal(rect.style['stroke-opacity'], '');
+  t.equal(rect.style['fill-opacity'], '');
+  t.notEqual(rect.style.stroke, 'none');
+  t.equal(rect.getAttribute('x'), '10');
+  t.equal(rect.getAttribute('y'), '10');
 });

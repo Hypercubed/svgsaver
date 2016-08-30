@@ -35,9 +35,7 @@ export function savePng (uri, name) {
     context.drawImage(image, 0, 0);
 
     if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
-      canvas.toBlob(function (blob) {
-        saveAs(blob, name);
-      });
+      canvas.toBlob(blob => saveAs(blob, name));
     } else {
       saveUri(canvas.toDataURL('image/png'), name);
     }
