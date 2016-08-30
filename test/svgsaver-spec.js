@@ -3,6 +3,12 @@
 import test from 'tape';
 import SvgSaver from '../src/';
 
+const isPhantom = typeof Blob !== 'function';
+
+if (isPhantom) {
+  require('blob-polyfill');
+}
+
 const html = `
   <style>
     rect { stroke-opacity: 0.75; fill-opacity: 1; stroke-width: 1; fill: #0000ff; stroke:none; }
@@ -225,10 +231,6 @@ test('should convert SVG element to Blob', t => {
   const svgSaver = new SvgSaver();
   toDom(html);
 
-  if (typeof window.Blob !== 'function') {
-    window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
-  }
-
   const e = document.querySelector('#svg-0');
   const blob = svgSaver.getBlob(e);
   t.ok(blob instanceof Blob);
@@ -257,17 +259,19 @@ test('should save SVG', t => {
   });
 });
 
-test('should save PNG', t => {
-  t.plan(1);
+if (!isPhantom) {
+  test('should save PNG', t => {
+    t.plan(1);
 
-  const svgSaver = new SvgSaver();
-  toDom(html);
+    const svgSaver = new SvgSaver();
+    toDom(html);
 
-  const e = document.querySelector('#svg-0');
-  t.doesNotThrow(() => {
-    svgSaver.asPng(e);
+    const e = document.querySelector('#svg-0');
+    t.doesNotThrow(() => {
+      svgSaver.asPng(e);
+    });
   });
-});
+}
 
 test('should convert fast mode', t => {
   t.plan(6);

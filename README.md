@@ -9,7 +9,6 @@ Download an SVG element as an SVG or PNG file, including CSS defined styles.
 [![Build Status][travis-image]][travis-url]
 [![Codacy Badge][codacy-badge]][Codacy]
 
-[![js-semistandard-style][standard-badge]][semistandard]
 [![License][license-badge]][MIT License]
 
 ## Features
@@ -67,7 +66,6 @@ Based on previous work on [Hypercubed/angular-downloadsvg-directive](https://git
 
 [npm]: https://npmjs.org/package/svgsaver
 [bower]: https://npmjs.org/package/svgsaver
-[semistandard]: https://github.com/Flet/semistandard
 [Codacy]: https://www.codacy.com/app/hypercubed/svgsaver
 [MIT License]: http://en.wikipedia.org/wiki/MIT_License
 [travis-url]: https://travis-ci.org/Hypercubed/svgsaver
@@ -75,7 +73,6 @@ Based on previous work on [Hypercubed/angular-downloadsvg-directive](https://git
 [travis-image]: https://img.shields.io/travis/Hypercubed/svgsaver.svg
 [npm-badge]: https://img.shields.io/npm/v/svgsaver.svg
 [bower-badge]: https://img.shields.io/bower/v/svgsaver.svg
-[standard-badge]: https://img.shields.io/badge/code%20style-semistandard-brightgreen.svg
 [download-badge]: http://img.shields.io/npm/dm/svgsaver.svg
 [codacy-badge]: https://api.codacy.com/project/badge/6fe47dae30b34d2da78572b3ea36cfe0
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
