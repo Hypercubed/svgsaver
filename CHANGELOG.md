@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fix #4, Add href to default attributes
 
 --------------------
 
