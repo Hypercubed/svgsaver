@@ -49,7 +49,8 @@
     "zuul": "^3.11.1"
   },
   "dependencies": {
-    "computed-styles": "^1.1.2"
+    "computed-styles": "^1.1.2",
+    "phantomjs": "^1.9.18"
   },
   "directories": {
     "test": "test"
