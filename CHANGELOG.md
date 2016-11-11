@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fix #4, Add href to default attributes
+_(none)_
 
 --------------------
+
+## 0.6.2 (2016-11-11)
+* Fix #4, Add href to default attributes
 
 ## 0.6.1 (2015-11-17)
 * Fix #1, The string to be encoded contains characters outside of the Latin1 range.
