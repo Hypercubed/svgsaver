@@ -67,6 +67,7 @@ export const svgAttrs = [  // white list of attributes
   'id', 'xml: base', 'xml: lang', 'xml: space', // Core
   'height', 'result', 'width', 'x', 'y',     // Primitive
   'xlink: href',                              // Xlink attribute
+  'href',
   'style', 'class',
   'd', 'pathLength',                          // Path
   'x', 'y', 'dx', 'dy', 'glyphRef', 'format',

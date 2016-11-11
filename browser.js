@@ -78,7 +78,7 @@ var svgAttrs = [// white list of attributes
 'id', 'xml: base', 'xml: lang', 'xml: space', // Core
 'height', 'result', 'width', 'x', 'y', // Primitive
 'xlink: href', // Xlink attribute
-'style', 'class', 'd', 'pathLength', // Path
+'href', 'style', 'class', 'd', 'pathLength', // Path
 'x', 'y', 'dx', 'dy', 'glyphRef', 'format', 'x1', 'y1', 'x2', 'y2', 'rotate', 'textLength', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'width', 'height', 'refX', 'refY', 'orient', 'markerUnits', 'markerWidth', 'markerHeight', 'maskUnits', 'transform', 'viewBox', 'version', // Container
 'preserveAspectRatio', 'xmlns', 'points', // Polygons
 'offset'];
