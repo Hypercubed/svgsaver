@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fix phantomjs dev in package.json
+_(none)_
 
 --------------------
+
+## 0.7.0 (2017-04-12)
+* Fix phantomjs dev in package.json
 
 ## 0.6.2 (2016-11-11)
 * Fix #4, Add href to default attributes
