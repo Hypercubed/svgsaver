@@ -2,12 +2,15 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
+_(none)_
+
+--------------------
+
+## 0.8.0 (2017-04-25)
 * Improved demo
 * Added cloneSVG public API
 * Added getPngUri public API
 * Added xlink:href to allowed attrs
-
---------------------
 
 ## 0.7.0 (2017-04-12)
 * Fix phantomjs dev in package.json
