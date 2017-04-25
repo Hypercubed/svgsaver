@@ -2,7 +2,7 @@
 
 import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';
-import {saveUri, savePng} from './saveuri';
+import {saveUri, savePng, createCanvas} from './saveuri';
 import {isDefined, isFunction, isUndefined, isNode} from './utils';
 
 // inheritable styles may be overridden by parent, always copy for now
@@ -52,13 +52,13 @@ export class SvgSaver {
   }
 
   /**
-  * Return the SVG HTML text after cleaning
+  * Return the cloned SVG after cleaning
   *
   * @param {SVGElement} el The element to copy.
-  * @returns {String} SVG text after cleaning
+  * @returns {SVGElement} SVG text after cleaning
   * @api public
   */
-  getHTML (el) {
+  cloneSVG (el) {
     el = getSvg(el);
     const svg = cloneSvg(el, this.attrs, this.styles);
 
@@ -69,6 +69,18 @@ export class SvgSaver {
     svg.setAttribute('width', svg.getAttribute('width') || '500');
     svg.setAttribute('height', svg.getAttribute('height') || '900');
 
+    return svg;
+  }
+
+  /**
+  * Return the SVG HTML text after cleaning
+  *
+  * @param {SVGElement} el The element to copy.
+  * @returns {String} SVG text after cleaning
+  * @api public
+  */
+  getHTML (el) {
+    const svg = this.cloneSVG();
     return svg.outerHTML || (new window.XMLSerializer()).serializeToString(svg);
   }
 
@@ -116,6 +128,21 @@ export class SvgSaver {
     } else {
       return saveUri(this.getUri(el), filename);
     }
+  }
+
+  /**
+  * Gets the SVG as a PNG data URI.
+  *
+  * @param {SVGElement} el The element to copy.
+  * @param {Function} cb Call back called with the PNG data uri.
+  * @api public
+  */
+  getPngUri (el, cb) {
+    el = getSvg(el);
+    var filename = getFilename(el, null, 'png');
+    return createCanvas(this.getUri(el), filename, function (canvas) {
+      cb(canvas.toDataURL('image/png'));
+    });
   }
 
   /**

@@ -84,7 +84,8 @@ export const svgAttrs = [  // white list of attributes
   'viewBox', 'version',                      // Container
   'preserveAspectRatio', 'xmlns',
   'points',                                 // Polygons
-  'offset'
+  'offset',
+  'xlink:href'
 ];
 
 // http://www.w3.org/TR/SVG/propidx.html

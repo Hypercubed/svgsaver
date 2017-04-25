@@ -2,7 +2,10 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Improved demo
+* Added cloneSVG public API
+* Added getPngUri public API
+* Added xlink:href to allowed attrs
 
 --------------------
 

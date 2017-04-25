@@ -87,7 +87,7 @@ var svgAttrs = [// white list of attributes
 'href', 'style', 'class', 'd', 'pathLength', // Path
 'x', 'y', 'dx', 'dy', 'glyphRef', 'format', 'x1', 'y1', 'x2', 'y2', 'rotate', 'textLength', 'cx', 'cy', 'r', 'rx', 'ry', 'fx', 'fy', 'width', 'height', 'refX', 'refY', 'orient', 'markerUnits', 'markerWidth', 'markerHeight', 'maskUnits', 'transform', 'viewBox', 'version', // Container
 'preserveAspectRatio', 'xmlns', 'points', // Polygons
-'offset'];
+'offset', 'xlink:href'];
 
 // http://www.w3.org/TR/SVG/propidx.html
 // via https://github.com/svg/svgo/blob/master/plugins/_collections.js
@@ -200,7 +200,7 @@ function saveUri(uri, name) {
   return false;
 }
 
-function savePng(uri, name) {
+function createCanvas(uri, name, cb) {
   var canvas = document.createElement('canvas');
   var context = canvas.getContext('2d');
 
@@ -210,6 +210,14 @@ function savePng(uri, name) {
     canvas.height = image.height;
     context.drawImage(image, 0, 0);
 
+    cb(canvas);
+  };
+  image.src = uri;
+  return true;
+}
+
+function savePng(uri, name) {
+  return createCanvas(uri, name, function (canvas) {
     if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
       canvas.toBlob(function (blob) {
         saveAs(blob, name);
@@ -217,9 +225,7 @@ function savePng(uri, name) {
     } else {
       saveUri(canvas.toDataURL('image/png'), name);
     }
-  };
-  image.src = uri;
-  return true;
+  });
 }
 
 /* global saveAs, Blob */
@@ -279,16 +285,16 @@ var SvgSaver = (function () {
   }
 
   /**
-  * Return the SVG HTML text after cleaning
+  * Return the cloned SVG after cleaning
   *
   * @param {SVGElement} el The element to copy.
-  * @returns {String} SVG text after cleaning
+  * @returns {SVGElement} SVG text after cleaning
   * @api public
   */
 
   _createClass(SvgSaver, [{
-    key: 'getHTML',
-    value: function getHTML(el) {
+    key: 'cloneSVG',
+    value: function cloneSVG(el) {
       el = getSvg(el);
       var svg = cloneSvg(el, this.attrs, this.styles);
 
@@ -299,6 +305,20 @@ var SvgSaver = (function () {
       svg.setAttribute('width', svg.getAttribute('width') || '500');
       svg.setAttribute('height', svg.getAttribute('height') || '900');
 
+      return svg;
+    }
+
+    /**
+    * Return the SVG HTML text after cleaning
+    *
+    * @param {SVGElement} el The element to copy.
+    * @returns {String} SVG text after cleaning
+    * @api public
+    */
+  }, {
+    key: 'getHTML',
+    value: function getHTML(el) {
+      var svg = this.cloneSVG();
       return svg.outerHTML || new window.XMLSerializer().serializeToString(svg);
     }
 
@@ -352,6 +372,23 @@ var SvgSaver = (function () {
       } else {
         return saveUri(this.getUri(el), filename);
       }
+    }
+
+    /**
+    * Gets the SVG as a PNG data URI.
+    *
+    * @param {SVGElement} el The element to copy.
+    * @param {Function} cb Call back called with the PNG data uri.
+    * @api public
+    */
+  }, {
+    key: 'getPngUri',
+    value: function getPngUri(el, cb) {
+      el = getSvg(el);
+      var filename = getFilename(el, null, 'png');
+      return createCanvas(this.getUri(el), filename, function (canvas) {
+        cb(canvas.toDataURL('image/png'));
+      });
     }
 
     /**

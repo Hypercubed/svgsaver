@@ -24,7 +24,7 @@ export function saveUri (uri, name) {
   return false;
 }
 
-export function savePng (uri, name) {
+export function createCanvas (uri, name, cb) {
   const canvas = document.createElement('canvas');
   const context = canvas.getContext('2d');
 
@@ -34,6 +34,14 @@ export function savePng (uri, name) {
     canvas.height = image.height;
     context.drawImage(image, 0, 0);
 
+    cb(canvas);
+  };
+  image.src = uri;
+  return true;
+}
+
+export function savePng (uri, name) {
+  return createCanvas(uri, name, function (canvas) {
     if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
       canvas.toBlob(function (blob) {
         saveAs(blob, name);
@@ -41,7 +49,5 @@ export function savePng (uri, name) {
     } else {
       saveUri(canvas.toDataURL('image/png'), name);
     }
-  };
-  image.src = uri;
-  return true;
+  });
 }
