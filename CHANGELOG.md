@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Add xlink namespace declaration, fixes safari and firefox.
 
 --------------------
 

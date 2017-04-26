@@ -24,13 +24,21 @@
 			#octo { fill: #C3E4D8; }
 			#drop { fill: #9CDAF1; }
 			#pupils { fill: url(#Gradient01); }
+			svg:hover #pupils { animation: flash 10s infinite linear; }
+
+			@keyframes flash {
+				0% { fill: red; }
+				50% { fill: yellow; }
+				100% { fill: red; }
+			}
 		</style>
 	</head>
 <body>
 
 	<button id="getHTML">View HTML...</button>
 	<button id="cloneSvg">Clone as SVG...</button>
-	<button id="cloneAsPng">Clone as PNG...</button>
+	<button id="cloneAsUri">Clone as SVG URI...</button>
+	<button id="cloneAsPng">Clone as PNG URI...</button>
 	<button id="asSvg">Download as SVG...</button>
   <button id="asPng">Download as PNG...</button>
 	
@@ -99,10 +107,14 @@
       svgsaver.asPng(octocat);
     });
 		document.querySelector('#cloneAsPng').addEventListener('click', function() {
+			cleanCopyCat();
       svgsaver.getPngUri(octocat, function (data) {
-				cleanCopyCat();
 				console.log(copycat.innerHTML = '<img src="' + data + '"></img>');
 			});
+    });
+		document.querySelector('#cloneAsUri').addEventListener('click', function() {
+			cleanCopyCat();
+			console.log(copycat.innerHTML = '<img src="' + svgsaver.getUri(octocat) + '"></img>');
     });
 
 		function cleanCopyCat() {

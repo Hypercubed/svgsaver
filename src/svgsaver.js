@@ -63,6 +63,7 @@ export class SvgSaver {
     const svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttribute('xmlns:xlink', 'http://www.w3.org/1999/xlink');
     svg.setAttribute('version', 1.1);
 
     // height and width needed to download in FireFox
