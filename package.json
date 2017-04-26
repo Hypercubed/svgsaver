@@ -39,7 +39,7 @@
     "dmd": "^1.4.2",
     "jsdoc-parse": "^1.2.7",
     "live-server": "^1.1.0",
-    "phantomjs": "^2.1.7",
+    "phantomjs-prebuilt": "^2.1.14",
     "rollup": "^0.36.3",
     "semistandard": "^9.1.0",
     "tap-spec": "^4.1.0",
