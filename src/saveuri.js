@@ -5,7 +5,9 @@
 import {isDefined} from './utils';
 
 // detection
-const DownloadAttributeSupport = (typeof document !== 'undefined') && ('download' in document.createElement('a'));
+const DownloadAttributeSupport = (typeof document !== 'undefined')
+  && ('download' in document.createElement('a'))
+  && (typeof MouseEvent === 'function');
 
 export function saveUri (uri, name) {
   if (DownloadAttributeSupport) {

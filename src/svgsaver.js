@@ -12,29 +12,29 @@ inheritableAttrs.forEach(function (k) {
   }
 });
 
-function getSvg (el) {
-  if (isUndefined(el) || el === '') {
-    el = document.body.querySelector('svg');
-  } else if (typeof el === 'string') {
-    el = document.body.querySelector(el);
-  }
-  if (el && el.tagName !== 'svg') {
-    el = el.querySelector('svg');
-  }
-  if (!isNode(el)) {
-    throw new Error('svgsaver: Can\'t find an svg element');
-  }
-  return el;
-}
-
-function getFilename (el, filename, ext) {
-  if (!filename || filename === '') {
-    filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
-  }
-  return encodeURI(filename);
-}
-
 export class SvgSaver {
+
+  static getSvg (el) {
+    if (isUndefined(el) || el === '') {
+      el = document.body.querySelector('svg');
+    } else if (typeof el === 'string') {
+      el = document.body.querySelector(el);
+    }
+    if (el && el.tagName !== 'svg') {
+      el = el.querySelector('svg');
+    }
+    if (!isNode(el)) {
+      throw new Error('svgsaver: Can\'t find an svg element');
+    }
+    return el;
+  }
+
+  static getFilename (el, filename, ext) {
+    if (!filename || filename === '') {
+      filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
+    }
+    return encodeURI(filename);
+  }
 
   /**
   * SvgSaver constructor.
@@ -59,7 +59,7 @@ export class SvgSaver {
   * @api public
   */
   cloneSVG (el) {
-    el = getSvg(el);
+    el = SvgSaver.getSvg(el);
     const svg = cloneSvg(el, this.attrs, this.styles);
 
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -81,7 +81,7 @@ export class SvgSaver {
   * @api public
   */
   getHTML (el) {
-    const svg = this.cloneSVG();
+    const svg = this.cloneSVG(el);
     return svg.outerHTML || (new window.XMLSerializer()).serializeToString(svg);
   }
 
@@ -122,8 +122,8 @@ export class SvgSaver {
   * @api public
   */
   asSvg (el, filename) {
-    el = getSvg(el);
-    filename = getFilename(el, filename, 'svg');
+    el = SvgSaver.getSvg(el);
+    filename = SvgSaver.getFilename(el, filename, 'svg');
     if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
     } else {
@@ -139,8 +139,8 @@ export class SvgSaver {
   * @api public
   */
   getPngUri (el, cb) {
-    el = getSvg(el);
-    var filename = getFilename(el, null, 'png');
+    el = SvgSaver.getSvg(el);
+    var filename = SvgSaver.getFilename(el, null, 'png');
     return createCanvas(this.getUri(el), filename, function (canvas) {
       cb(canvas.toDataURL('image/png'));
     });
@@ -155,8 +155,8 @@ export class SvgSaver {
   * @api public
   */
   asPng (el, filename) {
-    el = getSvg(el);
-    filename = getFilename(el, filename, 'png');
+    el = SvgSaver.getSvg(el);
+    filename = SvgSaver.getFilename(el, filename, 'png');
     return savePng(this.getUri(el), filename);
   }
 

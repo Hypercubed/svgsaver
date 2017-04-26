@@ -181,7 +181,7 @@ function cloneSvg(src, attrs, styles) {
 /* Some simple utilities for saving SVGs, including an alternative to saveAs */
 
 // detection
-var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a');
+var DownloadAttributeSupport = typeof document !== 'undefined' && 'download' in document.createElement('a') && typeof MouseEvent === 'function';
 
 function saveUri(uri, name) {
   if (DownloadAttributeSupport) {
@@ -237,40 +237,43 @@ inheritableAttrs.forEach(function (k) {
   }
 });
 
-function getSvg(el) {
-  if (isUndefined(el) || el === '') {
-    el = document.body.querySelector('svg');
-  } else if (typeof el === 'string') {
-    el = document.body.querySelector(el);
-  }
-  if (el && el.tagName !== 'svg') {
-    el = el.querySelector('svg');
-  }
-  if (!isNode(el)) {
-    throw new Error('svgsaver: Can\'t find an svg element');
-  }
-  return el;
-}
-
-function getFilename(el, filename, ext) {
-  if (!filename || filename === '') {
-    filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
-  }
-  return encodeURI(filename);
-}
-
 var SvgSaver = (function () {
+  _createClass(SvgSaver, null, [{
+    key: 'getSvg',
+    value: function getSvg(el) {
+      if (isUndefined(el) || el === '') {
+        el = document.body.querySelector('svg');
+      } else if (typeof el === 'string') {
+        el = document.body.querySelector(el);
+      }
+      if (el && el.tagName !== 'svg') {
+        el = el.querySelector('svg');
+      }
+      if (!isNode(el)) {
+        throw new Error('svgsaver: Can\'t find an svg element');
+      }
+      return el;
+    }
+  }, {
+    key: 'getFilename',
+    value: function getFilename(el, filename, ext) {
+      if (!filename || filename === '') {
+        filename = (el.getAttribute('title') || 'untitled') + '.' + ext;
+      }
+      return encodeURI(filename);
+    }
 
-  /**
-  * SvgSaver constructor.
-  * @constructs SvgSaver
-  * @api public
-  *
-  * @example
-  * var svgsaver = new SvgSaver();                      // creates a new instance
-  * var svg = document.querySelector('#mysvg');         // find the SVG element
-  * svgsaver.asSvg(svg);                                // save as SVG
-  */
+    /**
+    * SvgSaver constructor.
+    * @constructs SvgSaver
+    * @api public
+    *
+    * @example
+    * var svgsaver = new SvgSaver();                      // creates a new instance
+    * var svg = document.querySelector('#mysvg');         // find the SVG element
+    * svgsaver.asSvg(svg);                                // save as SVG
+    */
+  }]);
 
   function SvgSaver() {
     var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
@@ -295,7 +298,7 @@ var SvgSaver = (function () {
   _createClass(SvgSaver, [{
     key: 'cloneSVG',
     value: function cloneSVG(el) {
-      el = getSvg(el);
+      el = SvgSaver.getSvg(el);
       var svg = cloneSvg(el, this.attrs, this.styles);
 
       svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
@@ -319,7 +322,7 @@ var SvgSaver = (function () {
   }, {
     key: 'getHTML',
     value: function getHTML(el) {
-      var svg = this.cloneSVG();
+      var svg = this.cloneSVG(el);
       return svg.outerHTML || new window.XMLSerializer().serializeToString(svg);
     }
 
@@ -366,8 +369,8 @@ var SvgSaver = (function () {
   }, {
     key: 'asSvg',
     value: function asSvg(el, filename) {
-      el = getSvg(el);
-      filename = getFilename(el, filename, 'svg');
+      el = SvgSaver.getSvg(el);
+      filename = SvgSaver.getFilename(el, filename, 'svg');
       if (isDefined(window.saveAs) && isFunction(Blob)) {
         return saveAs(this.getBlob(el), filename);
       } else {
@@ -385,8 +388,8 @@ var SvgSaver = (function () {
   }, {
     key: 'getPngUri',
     value: function getPngUri(el, cb) {
-      el = getSvg(el);
-      var filename = getFilename(el, null, 'png');
+      el = SvgSaver.getSvg(el);
+      var filename = SvgSaver.getFilename(el, null, 'png');
       return createCanvas(this.getUri(el), filename, function (canvas) {
         cb(canvas.toDataURL('image/png'));
       });
@@ -403,8 +406,8 @@ var SvgSaver = (function () {
   }, {
     key: 'asPng',
     value: function asPng(el, filename) {
-      el = getSvg(el);
-      filename = getFilename(el, filename, 'png');
+      el = SvgSaver.getSvg(el);
+      filename = SvgSaver.getFilename(el, filename, 'png');
       return savePng(this.getUri(el), filename);
     }
   }]);

@@ -2,7 +2,8 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Fix incorrect SVG being found
+* Fix tests
 
 --------------------
 
