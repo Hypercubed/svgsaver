@@ -2,10 +2,13 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Fix incorrect SVG being found
-* Fix tests
+_(none)_
 
 --------------------
+
+## 0.8.2 (2017-04-25)
+* Fix incorrect SVG being found
+* Fix tests
 
 ## 0.8.1 (2017-04-25)
 * Add xlink namespace declaration, fixes safari and firefox.
