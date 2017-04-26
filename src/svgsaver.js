@@ -126,9 +126,8 @@ export class SvgSaver {
     filename = SvgSaver.getFilename(el, filename, 'svg');
     if (isDefined(window.saveAs) && isFunction(Blob)) {
       return saveAs(this.getBlob(el), filename);
-    } else {
-      return saveUri(this.getUri(el), filename);
     }
+    return saveUri(this.getUri(el), filename);
   }
 
   /**

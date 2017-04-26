@@ -224,8 +224,11 @@ test('should convert SVG element to Blob', function (t) {
   toDom(html);
 
   if (typeof window.Blob !== 'function') {
-    return t.ok(true);
     window.Blob = window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder || window.MSBlobBuilder;
+  }
+
+  if (typeof window.Blob !== 'function') {
+    return t.ok(true);
   }
 
   var e = document.querySelector('#svg-0');
