@@ -2,9 +2,12 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Add xlink namespace declaration, fixes safari and firefox.
+_(none)_
 
 --------------------
+
+## 0.8.1 (2017-04-25)
+* Add xlink namespace declaration, fixes safari and firefox.
 
 ## 0.8.0 (2017-04-25)
 * Improved demo
