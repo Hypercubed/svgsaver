@@ -82,12 +82,13 @@ export class SvgSaver {
   */
   getHTML (el) {
     const svg = this.cloneSVG(el);
-    
+
     var html = svg.outerHTML;
-    if (html)
+    if (html) {
       return html;
-    
-    svg.removeAttribute("xmlns");
+    }
+
+    svg.removeAttribute('xmlns');
     return (new window.XMLSerializer()).serializeToString(svg);
   }
 
