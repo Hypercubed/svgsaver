@@ -20,7 +20,8 @@
     "jsdoc2md": "jsdoc-parse ./src/svgsaver.js | dmd > API.md",
     "version": "chg release -y && git add -A CHANGELOG.md",
     "zuul:local": "zuul --local 9966 --ui tape -- test/svgsaver-spec.js",
-    "zuul:phantom": "zuul --phantom --ui tape -- test/svgsaver-spec.js | tap-spec"
+    "zuul:phantom": "zuul --phantom --ui tape -- test/svgsaver-spec.js | tap-spec",
+    "np": "npm run build && np"
   },
   "keywords": [
     "svg",
@@ -39,6 +40,7 @@
     "dmd": "^1.4.2",
     "jsdoc-parse": "^1.2.7",
     "live-server": "^1.1.0",
+    "np": "^2.14.1",
     "phantomjs-prebuilt": "^2.1.14",
     "rollup": "^0.36.3",
     "semistandard": "^9.1.0",
