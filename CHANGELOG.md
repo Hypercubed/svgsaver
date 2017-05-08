@@ -2,7 +2,10 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-* Now includes FileSaver as a dependency
+* Now includes FileSaver as a dependency.
+* Fix duplicated xmlns in IE 11 #7.
+* Display error message in IE <= 11 in unsupported methods (`getPngUri` and `asPng`).
+* Disable unsupported methods in demo.
 
 --------------------
 

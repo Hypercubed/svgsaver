@@ -6,6 +6,8 @@ import {saveUri, savePng, createCanvas} from './saveuri';
 import {isDefined, isFunction, isUndefined, isNode} from './utils';
 import FileSaver from 'file-saver';
 
+const isIE11 = !!window.MSInputMethodContext && !!document.documentMode;
+
 // inheritable styles may be overridden by parent, always copy for now
 inheritableAttrs.forEach(function (k) {
   if (k in svgStyles) {
@@ -89,7 +91,13 @@ export class SvgSaver {
       return html;
     }
 
-    svg.removeAttribute('xmlns');
+    // see http://stackoverflow.com/questions/19610089/unwanted-namespaces-on-svg-markup-when-using-xmlserializer-in-javascript-with-ie
+    svg.removeAttribute("xmlns");
+    svg.removeAttribute("xmlns:xlink");
+
+    svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns', 'http://www.w3.org/2000/svg');
+    svg.setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xlink', 'http://www.w3.org/1999/xlink');
+
     return (new window.XMLSerializer()).serializeToString(svg);
   }
 
@@ -146,6 +154,9 @@ export class SvgSaver {
   * @api public
   */
   getPngUri (el, cb) {
+    if (isIE11) {
+      console.error('svgsaver: getPngUri not supported on IE11');
+    }
     el = SvgSaver.getSvg(el);
     var filename = SvgSaver.getFilename(el, null, 'png');
     return createCanvas(this.getUri(el), filename, function (canvas) {
@@ -162,6 +173,9 @@ export class SvgSaver {
   * @api public
   */
   asPng (el, filename) {
+    if (isIE11) {
+      console.error('svgsaver: asPng not supported on IE11');
+    }
     el = SvgSaver.getSvg(el);
     filename = SvgSaver.getFilename(el, filename, 'png');
     return savePng(this.getUri(el), filename);
