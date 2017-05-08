@@ -2,12 +2,15 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
+_(none)_
+
+--------------------
+
+## 0.9.0 (2017-05-08)
 * Now includes FileSaver as a dependency.
 * Fix duplicated xmlns in IE 11 #7.
 * Display error message in IE <= 11 in unsupported methods (`getPngUri` and `asPng`).
 * Disable unsupported methods in demo.
-
---------------------
 
 ## 0.8.2 (2017-04-25)
 * Fix incorrect SVG being found
