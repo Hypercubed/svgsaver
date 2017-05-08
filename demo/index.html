@@ -89,33 +89,37 @@
     var octocat = document.querySelector('#octocat');
 		var copycat = document.querySelector('#copyCat');
 
-		document.querySelector('#cloneSvg').addEventListener('click', function() {
+		addClick('#cloneSvg', function() {
 			cleanCopyCat();
 			copycat.appendChild(svgsaver.cloneSVG(octocat));
 		});
-		document.querySelector('#getHTML').addEventListener('click', function() {
+		addClick('#getHTML', function() {
 			cleanCopyCat();
 			copycat.innerHTML = '<textarea>' + svgsaver.getHTML(octocat) + '</textarea>';
 		});
-		document.querySelector('#asSvg').addEventListener('click', function() {
+		addClick('#asSvg', function() {
 			svgsaver.asSvg(octocat);
 		});
-    document.querySelector('#asPng').addEventListener('click', function() {
+    addClick('#asPng', function() {
       svgsaver.asPng(octocat);
     });
-		document.querySelector('#asPng').addEventListener('click', function() {
+		addClick('#asPng', function() {
       svgsaver.asPng(octocat);
     });
-		document.querySelector('#cloneAsPng').addEventListener('click', function() {
+		addClick('#cloneAsPng', function() {
 			cleanCopyCat();
       svgsaver.getPngUri(octocat, function (data) {
-				console.log(copycat.innerHTML = '<img src="' + data + '"></img>');
+				copycat.innerHTML = '<img src="' + data + '"></img>';
 			});
     });
-		document.querySelector('#cloneAsUri').addEventListener('click', function() {
+		addClick('#cloneAsUri', function() {
 			cleanCopyCat();
-			console.log(copycat.innerHTML = '<img src="' + svgsaver.getUri(octocat) + '"></img>');
+			copycat.innerHTML = '<img src="' + svgsaver.getUri(octocat) + '"></img>';
     });
+
+		function addClick(el, cb) {
+			document.querySelector(el).addEventListener('click', cb);
+		}
 
 		function cleanCopyCat() {
 			var myNode = copycat;

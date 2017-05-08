@@ -1,9 +1,10 @@
-/* global saveAs, Blob */
+/* global Blob */
 
 import {svgAttrs, svgStyles, inheritableAttrs} from './collection';
 import {cloneSvg} from './clonesvg';
 import {saveUri, savePng, createCanvas} from './saveuri';
 import {isDefined, isFunction, isUndefined, isNode} from './utils';
+import FileSaver from 'file-saver';
 
 // inheritable styles may be overridden by parent, always copy for now
 inheritableAttrs.forEach(function (k) {
@@ -124,8 +125,8 @@ export class SvgSaver {
   asSvg (el, filename) {
     el = SvgSaver.getSvg(el);
     filename = SvgSaver.getFilename(el, filename, 'svg');
-    if (isDefined(window.saveAs) && isFunction(Blob)) {
-      return saveAs(this.getBlob(el), filename);
+    if (isFunction(Blob)) {
+      return FileSaver.saveAs(this.getBlob(el), filename);
     }
     return saveUri(this.getUri(el), filename);
   }

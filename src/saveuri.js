@@ -1,8 +1,9 @@
-/* global saveAs, Image, MouseEvent */
+/* global Image, MouseEvent */
 
 /* Some simple utilities for saving SVGs, including an alternative to saveAs */
 
 import {isDefined} from './utils';
+import FileSaver from 'file-saver';
 
 // detection
 const DownloadAttributeSupport = (typeof document !== 'undefined') &&
@@ -44,9 +45,9 @@ export function createCanvas (uri, name, cb) {
 
 export function savePng (uri, name) {
   return createCanvas(uri, name, function (canvas) {
-    if (isDefined(window.saveAs) && isDefined(canvas.toBlob)) {
+    if (isDefined(canvas.toBlob)) {
       canvas.toBlob(function (blob) {
-        saveAs(blob, name);
+        FileSaver.saveAs(blob, name);
       });
     } else {
       saveUri(canvas.toDataURL('image/png'), name);

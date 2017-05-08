@@ -2,7 +2,7 @@ CHANGELOG
 =========
 
 ## HEAD (Unreleased)
-_(none)_
+* Now includes FileSaver as a dependency
 
 --------------------
 
@@ -11,7 +11,7 @@ _(none)_
 * Fix tests
 
 ## 0.8.1 (2017-04-25)
-* Add xlink namespace declaration, fixes safari and firefox.
+* Add xlink namespace declaration, fixes Safari and Firefox.
 
 ## 0.8.0 (2017-04-25)
 * Improved demo
